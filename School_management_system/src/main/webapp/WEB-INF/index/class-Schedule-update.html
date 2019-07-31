@@ -1,0 +1,253 @@
+<!--_meta 作为公共模版分离出去-->
+<!DOCTYPE HTML>
+<html>
+<head>
+<meta charset="utf-8">
+<meta name="renderer" content="webkit|ie-comp|ie-stand">
+<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+<meta name="viewport" content="width=device-width,initial-scale=1,minimum-scale=1.0,maximum-scale=1.0,user-scalable=no" />
+<meta http-equiv="Cache-Control" content="no-siteapp" />
+<link rel="Bookmark" href="/favicon.ico" >
+<link rel="Shortcut Icon" href="/favicon.ico" />
+<!--[if lt IE 9]>
+<script type="text/javascript" src="lib/html5shiv.js"></script>
+<script type="text/javascript" src="lib/respond.min.js"></script>
+<![endif]-->
+<link rel="stylesheet" type="text/css" href="static/h-ui/css/H-ui.min.css" />
+<link rel="stylesheet" type="text/css" href="static/h-ui.admin/css/H-ui.admin.css" />
+<link rel="stylesheet" type="text/css" href="lib/Hui-iconfont/1.0.8/iconfont.css" />
+<link rel="stylesheet" type="text/css" href="static/h-ui.admin/skin/default/skin.css" id="skin" />
+<link rel="stylesheet" type="text/css" href="static/h-ui.admin/css/style.css" />
+<!--[if IE 6]>
+<script type="text/javascript" src="lib/DD_belatedPNG_0.0.8a-min.js" ></script>
+<script>DD_belatedPNG.fix('*');</script>
+<![endif]-->
+<!--/meta 作为公共模版分离出去-->
+
+<title>修改教师班表</title>
+<meta name="keywords" content="">
+<meta name="description" content="">
+</head>
+<body>
+<article class="page-container">
+	<form action=""  class="form form-horizontal" id="form-member-add">
+		<div class="row cl">
+			<label class="form-label col-xs-4 col-sm-3"><span class="c-red">*</span>教师名：</label>
+			<div class="formControls col-xs-8 col-sm-9">
+				<select id="teacher" name="teachername" class="select">
+				</select>
+				<span id="teacher_span" style="color:red;font-size:12px"></span>
+			</div>
+		</div>
+		<div class="row cl">
+			<label class="form-label col-xs-4 col-sm-3"><span class="c-red">*</span>教师身份证号：</label>
+			<div class="formControls col-xs-8 col-sm-9">
+				<input type="text" class="input-text" value="" placeholder="" id="classSchedule_teacher_IDCard" name="" disabled="disabled">
+			</div>
+		</div>
+		<div class="row cl">
+			<label class="form-label col-xs-4 col-sm-3"><span class="c-red">*</span>代课班级：</label>
+			<div class="formControls col-xs-8 col-sm-9">
+				<select id="class_select" name="classname" class="select">
+				</select>
+				<span id="class_span" style="color:red;font-size:12px"></span>
+			</div>
+		</div>
+		
+		<div class="row cl">
+			<div class="col-xs-8 col-sm-9 col-xs-offset-4 col-sm-offset-3">
+				<input class="btn btn-primary radius" type="button" id="update" value="&nbsp;&nbsp;提交&nbsp;&nbsp;">
+			</div>
+		</div>
+	</form>
+</article>
+
+<!--_footer 作为公共模版分离出去-->
+<script type="text/javascript" src="lib/jquery/1.9.1/jquery.min.js"></script> 
+<script type="text/javascript" src="lib/layer/2.4/layer.js"></script>
+<script type="text/javascript" src="static/h-ui/js/H-ui.min.js"></script> 
+<script type="text/javascript" src="static/h-ui.admin/js/H-ui.admin.js"></script> <!--/_footer 作为公共模版分离出去-->
+
+<!--请在下方写此页面业务相关的脚本--> 
+<script type="text/javascript" src="lib/My97DatePicker/4.8/WdatePicker.js"></script>
+<script type="text/javascript" src="lib/jquery.validation/1.14.0/jquery.validate.js"></script> 
+<script type="text/javascript" src="lib/jquery.validation/1.14.0/validate-methods.js"></script> 
+<script type="text/javascript" src="lib/jquery.validation/1.14.0/messages_zh.js"></script>
+<script type="text/javascript" src="js/page.js"></script>
+<script type="text/javascript" src="js/base.js"></script>
+<script type="text/javascript" src="js/regular_expression.js"></script>
+<script type="text/javascript" src="js/cookie_util.js"></script>
+<script type="text/javascript">
+$(function(){
+	//显示信息在编辑页面上
+	ShowClassSchedule();
+	//修改教师班表
+	$("#update").click(UpdateClassSchedule);
+	
+	$('.skin-minimal input').iCheck({
+		checkboxClass: 'icheckbox-blue',
+		radioClass: 'iradio-blue',
+		increaseArea: '20%'
+	});
+	
+	$("#form-member-add").validate({
+		rules:{
+			username:{
+				required:true,
+				minlength:2,
+				maxlength:16
+			},
+			sex:{
+				required:true,
+			},
+			mobile:{
+				required:true,
+				isMobile:true,
+			},
+			email:{
+				required:true,
+				email:true,
+			},
+			uploadfile:{
+				required:true,
+			},
+			
+		},
+		onkeyup:false,
+		focusCleanup:true,
+		success:"valid",
+		submitHandler:function(form){
+			//$(form).ajaxSubmit();
+			var index = parent.layer.getFrameIndex(window.name);
+			//parent.$('.btn-refresh').click();
+			parent.layer.close(index);
+		}
+	});
+	
+	//获取教师信息
+	$.ajax({
+		"url" : path + "/findAllTeacher.do",
+		"type" : "post",
+		"dataType" : "json",
+		"success" : function(d) {
+			var teacher = d.data;
+			// 获取到数据后放入option中
+			for (var i = 0; i < teacher.length; i++) {
+				$("#teacher").append(
+						"<option value='" + teacher[i].teacher_id + "'>"
+								+ teacher[i].teacher_name + "</option>");
+			}
+		}
+	});
+	//点击教师获取身份证号
+	$("#teacher").change(
+			function() {
+				var teacher_id = $(this).val();
+				if (teacher_id != 0) {
+					$.ajax({
+						"url" : path + "/findIDCard.do",
+						"type" : "post",
+						"data" : {
+							"id" : teacher_id
+						},
+						"dataType" : "json",
+						"success" : function(d) {
+							// 清空旧数据
+							$("#classSchedule_teacher_IDCard").val("");
+							var teacher_IDCard = d.data;
+							$("#classSchedule_teacher_IDCard").val(teacher_IDCard);
+						}
+					});
+				} else {
+					$("#classSchedule_teacher_IDCard").val("");
+				}
+			});
+	
+	//查询所有班级名称
+	$.ajax({
+		"url" : path + "/findClassName.do",
+		"type" : "post",
+		"dataType" : "json",
+		"success" : function(d) {
+			var ClassName = d.data;
+			// 获取到数据后放入option中
+			for (var i = 0; i < ClassName.length; i++) {
+				$("#class_select").append(
+						"<option value=''>"
+								+ ClassName[i].class_name + "</option>");
+			}
+		}
+	});
+});
+
+//清空提示信息
+$("#teacher").click(function(){
+	$("#teacher_span").html("");
+});
+$("#class_select").click(function(){
+	$("#class_span").html("");
+});
+
+//显示信息在编辑页面上
+var id=0;
+function ShowClassSchedule(){
+	id=getCookie("schedule_id");
+	if(id!=null){
+		$.ajax({
+			type: "POST",
+			url:path+"/ShowClassScheduleById.do",
+			data:{"id":id},
+			dataType: "json",
+			success:function(d){
+				if(d.status==0){
+					var c=d.data;
+					$("#teacher").html("<option>"+c.class_schedule_teachername+"</option>");
+					$("#classSchedule_teacher_IDCard").val(c.teacher_idcard);
+					$("#class_select").html("<option>"+c.class_schedule_classname+"</option>");
+				}
+			},
+			error:function(){
+				alert("添加失败!");
+			}
+		});
+	}
+}
+//修改教师班表
+function UpdateClassSchedule(){
+	//获取信息
+	var teachername=$("#teacher").find("option:selected").text();
+	var classname=$("#class_select").find("option:selected").text();
+	var classSchedule_teacher_IDCard=$("#classSchedule_teacher_IDCard").val();
+	var ok=true;
+	if(teacher==""){
+		$("#teacher_span").html("* 请选择教师");
+		ok=false;
+	}
+	if(classname==""){
+		$("#class_span").html("* 这是必选字段");
+		ok=false;
+	}
+	if(ok){
+	$.ajax({
+		type: "POST",
+		url:path+"/UpdateClassSchedule.do",
+		data:{"id":id,"teachername":teachername,"classname":classname,
+				"classSchedule_teacher_IDCard":classSchedule_teacher_IDCard},
+				
+		dataType: "json",
+		success:function(d){
+			if(d.status==0){
+				layer.msg('修改成功!',{icon:1,time:1000});
+				addlog(38);
+			}
+		},
+		error:function(){
+			alert("添加失败!");
+		}
+	});
+  }
+}
+</script> 
+<!--/请在上方写此页面业务相关的脚本-->
+</body>
+</html>

@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="UTF-8" ?>  
+<!DOCTYPE mapper PUBLIC "-//ibatis.apache.org//DTD Mapper 3.0//EN"      
+ "http://ibatis.apache.org/dtd/ibatis-3-mapper.dtd">
+<mapper namespace="com.cc.dao.ProfessionManagerDao">
+	
+	<insert id="AddProfession" parameterType="com.cc.entity.Professional">
+		insert into professional values(null,#{professional_name},#{professional_time},#{professional_introduce},#{professional_tuition},#{development_direction})
+	</insert>
+	
+	<delete id="DeleteProfession" parameterType="Integer">
+		delete from professional where professional_id=#{professional_id}
+	</delete>
+	
+	<select id="ShowProfession"  parameterType="Integer" resultType="com.cc.entity.Professional">
+		select * from professional where professional_id=#{professional_id}
+	</select>
+	
+	<update id="UpdateProfession" parameterType="com.cc.entity.Professional">
+		update professional set professional_name=#{professional_name},
+								professional_time=#{professional_time},
+								professional_introduce=#{professional_introduce},
+								professional_tuition=#{professional_tuition},
+								development_direction=#{development_direction}
+						   where
+						   		professional_id=#{professional_id}
+	</update>
+</mapper>

@@ -1,0 +1,72 @@
+<?xml version="1.0" encoding="UTF-8" ?>  
+<!DOCTYPE mapper PUBLIC "-//ibatis.apache.org//DTD Mapper 3.0//EN"      
+ "http://ibatis.apache.org/dtd/ibatis-3-mapper.dtd">
+<mapper namespace="com.cc.dao.SchoolActivitiesDao">
+	
+	<insert id="AddSchoolActivities" parameterType="com.cc.entity.School_activities">
+		insert into school_activities values(
+				null,#{school_activities_name},#{school_activities_organizer},
+				#{school_activities_participants},#{school_activities_place},
+				#{school_activities_number},#{school_activities_starttime},
+				#{school_activities_endtime},#{school_activities_status})
+	</insert>
+	
+	<delete id="DeleteSchoolActivities" parameterType="Integer">
+		delete from school_activities where school_activities_id=#{school_activities_id}
+	</delete>
+	
+	<select id="ShowSchoolActivities" parameterType="Integer" resultType="com.cc.entity.School_activities">
+		select * from school_activities where school_activities_id=#{school_activities_id}
+	</select>
+	
+	<!-- 按条件查询场地安排 -->
+	<select id="showArrange" parameterType="Integer" resultType="com.cc.entity.Arrange"> 
+		select * from arrange where clubAndSchoolActivities_id=#{id} and clubAndSchoolstatus=2
+	</select>
+	
+	<!-- 查询预约失败原因 -->
+	<select id="SelectReason" parameterType="Integer" resultType="com.cc.entity.Arrange"> 
+		select * from arrange where clubAndSchoolActivities_id=#{id} and clubAndSchoolstatus=2 ORDER BY arrange_id DESC LIMIT 1 
+	</select>
+	
+	<!-- 查询预约失败原因2 -->
+	<select id="SelectReason2" parameterType="Integer" resultType="com.cc.entity.Arrange"> 
+		select * from arrange where clubAndSchoolActivities_id=#{id} and clubAndSchoolstatus=1 ORDER BY arrange_id DESC LIMIT 1 
+	</select>
+	
+	<!-- 修改场地状态stop -->
+	<update id="addArrangeStop" parameterType="Integer">
+		update arrange set arrange_statr=4 where arrange_id=#{id}
+	</update>
+	
+	<!-- 修改校园活动stop -->
+	<update id="schoolActivitiesStartStop" parameterType="Integer">
+		update school_activities set school_activities_status=0 where school_activities_id=#{id}
+	</update>
+	
+	<update id="UpdateSchoolActivities" parameterType="com.cc.entity.School_activities">
+		update school_activities set 
+				school_activities_name=#{school_activities_name},
+				school_activities_organizer=#{school_activities_organizer},
+				school_activities_participants=#{school_activities_participants},
+				school_activities_place=#{school_activities_place},
+				school_activities_number=#{school_activities_number},
+				school_activities_starttime=#{school_activities_starttime},
+				school_activities_endtime=#{school_activities_endtime}
+	where
+				school_activities_id=#{school_activities_id}
+	</update>
+	<update id="schoolActivitiesStart" parameterType="Integer">
+		update school_activities set 
+				school_activities_status=3
+	where
+				school_activities_id=#{id}
+	</update>
+	
+	
+	<!--添加场地安排请求  -->
+	<insert id="addArrangeReason" parameterType="com.cc.entity.Club_activities">
+		insert into arrange values(null,#{school_activities_organizer},#{school_activities_place},#{school_activities_number},#{school_activities_name},
+							#{school_activities_starttime},#{school_activities_endtime},0,"无",#{school_activities_id},2);
+	</insert>
+</mapper>

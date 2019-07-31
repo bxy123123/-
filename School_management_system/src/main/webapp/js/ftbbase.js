@@ -1,0 +1,1 @@
+var path1="http://192.168.100.218/p004/pic/Head_image/"

@@ -1,0 +1,284 @@
+<!--_meta 作为公共模版分离出去-->
+<!DOCTYPE HTML>
+<html>
+<head>
+<meta charset="utf-8">
+<meta name="renderer" content="webkit|ie-comp|ie-stand">
+<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+<meta name="viewport" content="width=device-width,initial-scale=1,minimum-scale=1.0,maximum-scale=1.0,user-scalable=no" />
+<meta http-equiv="Cache-Control" content="no-siteapp" />
+<link rel="Bookmark" href="/favicon.ico" >
+<link rel="Shortcut Icon" href="/favicon.ico" />
+<link rel="stylesheet" type="text/css" href="static/h-ui/css/H-ui.min.css" />
+<link rel="stylesheet" type="text/css" href="static/h-ui.admin/css/H-ui.admin.css" />
+<link rel="stylesheet" type="text/css" href="lib/Hui-iconfont/1.0.8/iconfont.css" />
+<link rel="stylesheet" type="text/css" href="static/h-ui.admin/skin/default/skin.css" id="skin" />
+<link rel="stylesheet" type="text/css" href="static/h-ui.admin/css/style.css" />
+<!--[if IE 6]>
+<script type="text/javascript" src="lib/DD_belatedPNG_0.0.8a-min.js" ></script>
+<script>DD_belatedPNG.fix('*');</script>
+<![endif]-->
+<!--/meta 作为公共模版分离出去-->
+
+<title>个人信息</title>
+<meta name="keywords" content="">
+<meta name="description" content="">
+
+</head>
+<body>
+ <canvas id="Mycanvas" style="position:fixed;z-index:-1;"></canvas>
+<article class="page-container">
+	<form action="" method="post" class="form form-horizontal" id="form-admin-role-add">
+		<div class="row cl">
+			<label class="form-label col-xs-4 col-sm-3"><span class="c-red">*</span>手机号：</label>
+			<div class="formControls col-xs-8 col-sm-9">
+				<input type="text" class="input-text" value="" placeholder="" id="userphone" name="roleName" readonly>
+			</div>
+		</div>
+		<div class="row cl">
+			<label class="form-label col-xs-4 col-sm-3"><span class="c-red">*</span>用户真实姓名：</label>
+			<div class="formControls col-xs-8 col-sm-9">
+				<input type="text" class="input-text" placeholder="" id="username" value="" name="username" readonly>
+			</div>
+		</div>
+		<div class="row cl">
+			<label class="form-label col-xs-4 col-sm-3"><span class="c-red">*</span>年龄：</label>
+			<div class="formControls col-xs-8 col-sm-9">
+				<input type="text" class="input-text" value="" placeholder="" id="userage" name="username" readonly>
+			</div>
+		</div>
+		<div class="row cl">
+			<label class="form-label col-xs-4 col-sm-3"><span class="c-red">*</span>性别：</label>
+			<div class="formControls col-xs-8 col-sm-9 skin-minimal">
+				<div class="radio-box">
+					<input name="sex" type="radio" id="sex-1" value="男" disabled="disabled">
+					<label for="sex-1">男</label>
+				</div>
+				<div class="radio-box">
+					<input type="radio" id="sex-2" name="sex" value="女" disabled="disabled">
+					<label for="sex-2">女</label>
+				</div>
+			</div>
+		</div>
+		<div class="row cl">
+			<label class="form-label col-xs-4 col-sm-3"><span class="c-red">*</span>职位：</label>
+			<div class="formControls col-xs-8 col-sm-9 skin-minimal">
+					<select id="user_role">
+					</select>
+			</div>
+		</div>
+		
+		<div class="row cl">
+			<label class="form-label col-xs-4 col-sm-3"><span class="c-red">*</span>身份证号码：</label>
+			<div class="formControls col-xs-8 col-sm-9">
+				<input type="text" class="input-text" value="" placeholder="" id="user_IDCard" name="username" readonly>
+			</div>
+		</div>
+		
+		<div class="row cl">
+			<div style="color:red;font-size:15px; margin-left:600px" id="error">
+				
+			</div>
+			<div class="col-xs-8 col-sm-9 col-xs-offset-4 col-sm-offset-3">
+				<button type="button" class="btn btn-success radius" id="admin-role-add" name="admin-role-save"><i class="icon-ok"></i> 确定</button>
+			</div>
+		</div>
+	</form>
+</article>
+
+<!--_footer 作为公共模版分离出去-->
+<script type="text/javascript" src="lib/jquery/1.9.1/jquery.min.js"></script> 
+<script type="text/javascript" src="lib/layer/2.4/layer.js"></script>
+<script type="text/javascript" src="static/h-ui/js/H-ui.min.js"></script> 
+<script type="text/javascript" src="static/h-ui.admin/js/H-ui.admin.js"></script> <!--/_footer 作为公共模版分离出去-->
+
+<!--请在下方写此页面业务相关的脚本-->
+<script type="text/javascript" src="lib/jquery.validation/1.14.0/jquery.validate.js"></script>
+<script type="text/javascript" src="lib/jquery.validation/1.14.0/validate-methods.js"></script>
+<script type="text/javascript" src="lib/jquery.validation/1.14.0/messages_zh.js"></script>
+<script type="text/javascript" src="js/cookie_util.js"></script>
+<script type="text/javascript" src="js/base.js"></script>
+<script type="text/javascript">
+$(function(){
+	$(".permission-list dt input:checkbox").click(function(){
+		$(this).closest("dl").find("dd input:checkbox").prop("checked",$(this).prop("checked"));
+	});
+	$(".permission-list2 dd input:checkbox").click(function(){
+		var l =$(this).parent().parent().find("input:checked").length;
+		var l2=$(this).parents(".permission-list").find(".permission-list2 dd").find("input:checked").length;
+		if($(this).prop("checked")){
+			$(this).closest("dl").find("dt input:checkbox").prop("checked",true);
+			$(this).parents(".permission-list").find("dt").first().find("input:checkbox").prop("checked",true);
+		}
+		else{
+			if(l==0){
+				$(this).closest("dl").find("dt input:checkbox").prop("checked",false);
+			}
+			if(l2==0){
+				$(this).parents(".permission-list").find("dt").first().find("input:checkbox").prop("checked",false);
+			}
+		}
+	});
+		//个人信息
+		$(function(){
+		var userid = getCookie("userid");
+		if(userid!=null){
+			$.ajax({
+				type: "POST",
+				url:path+"/ModifyUser.do",
+				data:{"user_id":userid},
+				dataType: "json",
+				success: function(data){
+					var user=data.data;
+					if(data.status==0){
+						$("#userphone").val(user.user_phone);
+						$("#username").val(user.user_name);
+						$("#userage").val(user.user_age);
+						if(user.user_sex=='男'){
+							$("#sex-1").attr("checked","checked");
+							$("#sex-2").removeAttr("checked");
+						}
+						if(user.user_sex=='女'){
+							$("#sex-2").attr("checked","checked");
+							$("#sex-1").removeAttr("checked");
+						}
+						$("#user_role").html("<option>"+user.user_role+"</option>");
+						$("#user_IDCard").val(user.user_IDCard);
+					}else{
+						alert("显示个人信息错误!");
+					}
+				},
+				error:function(data) {
+					console.log(data.msg);
+				},
+			});	
+		}
+		delCookie("userid");
+	});
+	
+	
+	$("#form-admin-role-add").validate({
+		rules:{
+			roleName:{
+				required:true,
+			},
+		},
+		onkeyup:false,
+		focusCleanup:true,
+		success:"valid",
+		submitHandler:function(form){
+			$(form).ajaxSubmit();
+			var index = parent.layer.getFrameIndex(window.name);
+			parent.layer.close(index);
+		}
+	});
+});
+</script>
+<!-- 背景特效 -->
+<script>
+//定义画布宽高和生成点的个数
+var WIDTH = window.innerWidth, HEIGHT = window.innerHeight, POINT = 35;
+
+var canvas = document.getElementById('Mycanvas');
+canvas.width = WIDTH,
+canvas.height = HEIGHT;
+var context = canvas.getContext('2d');
+context.strokeStyle = 'rgba(0,0,0,0.2)',
+context.strokeWidth = 1,
+context.fillStyle = 'rgba(0,0,0,0.1)';
+var circleArr = [];
+
+//线条：开始xy坐标，结束xy坐标，线条透明度
+function Line (x, y, _x, _y, o) {
+    this.beginX = x,
+    this.beginY = y,
+    this.closeX = _x,
+    this.closeY = _y,
+    this.o = o;
+}
+//点：圆心xy坐标，半径，每帧移动xy的距离
+function Circle (x, y, r, moveX, moveY) {
+    this.x = x,
+    this.y = y,
+    this.r = r,
+    this.moveX = moveX,
+    this.moveY = moveY;
+}
+//生成max和min之间的随机数
+function num (max, _min) {
+    var min = arguments[1] || 0;
+    return Math.floor(Math.random()*(max-min+1)+min);
+}
+// 绘制原点
+function drawCricle (cxt, x, y, r, moveX, moveY) {
+    var circle = new Circle(x, y, r, moveX, moveY)
+    cxt.beginPath()
+    cxt.arc(circle.x, circle.y, circle.r, 0, 2*Math.PI)
+    cxt.closePath()
+    cxt.fill();
+    return circle;
+}
+//绘制线条
+function drawLine (cxt, x, y, _x, _y, o) {
+    var line = new Line(x, y, _x, _y, o)
+    cxt.beginPath()
+    cxt.strokeStyle = 'rgba(0,0,0,'+ o +')'
+    cxt.moveTo(line.beginX, line.beginY)
+    cxt.lineTo(line.closeX, line.closeY)
+    cxt.closePath()
+    cxt.stroke();
+
+}
+//初始化生成原点
+function init () {
+    circleArr = [];
+    for (var i = 0; i < POINT; i++) {
+        circleArr.push(drawCricle(context, num(WIDTH), num(HEIGHT), num(15, 2), num(10, -10)/40, num(10, -10)/40));
+    }
+    draw();
+}
+
+//每帧绘制
+function draw () {
+    context.clearRect(0,0,canvas.width, canvas.height);
+    for (var i = 0; i < POINT; i++) {
+        drawCricle(context, circleArr[i].x, circleArr[i].y, circleArr[i].r);
+    }
+    for (var i = 0; i < POINT; i++) {
+        for (var j = 0; j < POINT; j++) {
+            if (i + j < POINT) {
+                var A = Math.abs(circleArr[i+j].x - circleArr[i].x),
+                    B = Math.abs(circleArr[i+j].y - circleArr[i].y);
+                var lineLength = Math.sqrt(A*A + B*B);
+                var C = 1/lineLength*7-0.009;
+                var lineOpacity = C > 0.03 ? 0.03 : C;
+                if (lineOpacity > 0) {
+                    drawLine(context, circleArr[i].x, circleArr[i].y, circleArr[i+j].x, circleArr[i+j].y, lineOpacity);
+                }
+            }
+        }
+    }
+}
+
+//调用执行
+window.onload = function () {
+    init();
+    setInterval(function () {
+        for (var i = 0; i < POINT; i++) {
+            var cir = circleArr[i];
+            cir.x += cir.moveX;
+            cir.y += cir.moveY;
+            if (cir.x > WIDTH) cir.x = 0;
+            else if (cir.x < 0) cir.x = WIDTH;
+            if (cir.y > HEIGHT) cir.y = 0;
+            else if (cir.y < 0) cir.y = HEIGHT;
+            
+        }
+        draw();
+    }, 16);
+}
+
+</script>
+<!--/请在上方写此页面业务相关的脚本-->
+</body>
+</html>

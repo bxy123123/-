@@ -1,0 +1,96 @@
+<?xml version="1.0" encoding="UTF-8" ?>  
+<!DOCTYPE mapper PUBLIC "-//ibatis.apache.org//DTD Mapper 3.0//EN"      
+ "http://ibatis.apache.org/dtd/ibatis-3-mapper.dtd">
+<mapper namespace="com.cc.dao.PlaceDao">
+
+	<select id="pageSize" resultType="java.lang.Integer">
+		select count(*) from place
+	</select>
+
+	<select id="findpage" resultType="com.cc.entity.Place">
+		select * from place limit
+		#{start},#{end}
+	</select>
+
+	<!--添加场地(添加个人信息) -->
+	<insert id="AddDao" parameterType="com.cc.entity.Place">
+		insert into place
+		values(null,#{place_name},#{place_place},#{place_accommodatingPopulation},#{place_indoorAndOutdoor})
+	</insert>
+
+	<!--场地编辑(显示场地信息在编辑页面) -->
+	<select id="placeById" parameterType="Integer" resultType="com.cc.entity.Place">
+		select * from place where place_id=#{id}
+	</select>
+
+	<!--场地编辑(修改场地信息) -->
+	<update id="UpdatePlace" parameterType="com.cc.entity.Place">
+		update place set
+		place_name=#{place_name},place_place=#{place_place},
+		place_accommodatingPopulation=#{place_accommodatingPopulation},place_indoorAndOutdoor=#{place_indoorAndOutdoor}
+		where place_id=#{place_id}
+	</update>
+
+	<!--删除场地 -->
+	<delete id="DeletePlace" parameterType="Integer">
+		delete from place where
+		place_id=#{place_id}
+	</delete>
+
+	<select resultType="com.cc.entity.Arrange" id="placeArrangeById"
+		parameterType="Integer"> select * from arrange where arrange_id=#{id} </select>
+
+	<!--添加场地安排(添加场地安排) -->
+
+
+	<insert id="AddPlacearrange" parameterType="com.cc.entity.Arrange"> insert into arrange
+		values(null,#{arrange_company},#{arrange_place},#{arrange_people},#{arrange_content},#{arrange_usetime},#{arrange_stoptime}) </insert>
+
+	<!--删除场地安排 -->
+
+
+	<delete id="DeleteArrangePlace" parameterType="Integer"> delete from
+		arrange where arrange_id=#{arrange_id} </delete>
+
+	<!--场地编辑(修改场地信息) -->
+
+
+	<update id="UpdateArrangePlace" parameterType="com.cc.entity.Arrange"> update arrange
+		set
+		arrange_company=#{arrange_company},arrange_place=#{arrange_place},arrange_people=#{arrange_people},arrange_content=#{arrange_content},
+		arrange_usetime=#{arrange_usetime},arrange_stoptime=#{arrange_stoptime}
+		where arrange_id=#{arrange_id} </update>
+
+	<!--场地安排编辑(修改场地状态) -->
+	<update id="updateArrangeStart1" parameterType="Integer"> 
+		update arrange set arrange_statr=1 where arrange_id=#{arrange_id} 
+	</update>
+		
+	<!--场地安排编辑(修改场地状态) -->
+	<update id="updateArrangeStart2" parameterType="Integer"> 
+		update arrange set arrange_statr=2 where arrange_id=#{arrange_id} 
+	</update>
+		                                                  
+	<!--场地安排编辑(修改场地原因) -->
+	<update id="updateArrangeStart3" > 
+		update arrange set arrange_reason=#{arrangeReason} where arrange_id=#{id} 
+	</update>
+		                                                  
+	<!--社团活动编辑(修改社团活动状态) -->
+	<update id="updateClubActivitiesStart" parameterType="Integer"> 
+		update club_activities set clubactivities_status=1 where clubactivities_id=#{id} 
+	</update>
+	<!--社团活动编辑(修改社团活动状态) -->
+	<update id="updateClubActivitiesStart2" parameterType="Integer"> 
+		update club_activities set clubactivities_status=2 where clubactivities_id=#{id} 
+	</update>
+	
+	<!--学校活动编辑(修改学校活动状态) -->
+	<update id="updateSchoolActivitiesStart" parameterType="Integer"> 
+		update school_activities set school_activities_status=1 where school_activities_id=#{id} 
+	</update>
+	<!--学校活动编辑(修改学校活动状态) -->
+	<update id="updateSchoolActivitiesStart2" parameterType="Integer"> 
+		update school_activities set school_activities_status=2 where school_activities_id=#{id} 
+	</update>
+</mapper>

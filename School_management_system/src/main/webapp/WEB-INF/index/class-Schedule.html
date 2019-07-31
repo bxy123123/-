@@ -1,0 +1,121 @@
+<!DOCTYPE HTML>
+<html>
+<head>
+<meta charset="utf-8">
+<meta name="renderer" content="webkit|ie-comp|ie-stand">
+<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+<meta name="viewport" content="width=device-width,initial-scale=1,minimum-scale=1.0,maximum-scale=1.0,user-scalable=no" />
+<meta http-equiv="Cache-Control" content="no-siteapp" />
+<!--[if lt IE 9]>
+<script type="text/javascript" src="lib/html5shiv.js"></script>
+<script type="text/javascript" src="lib/respond.min.js"></script>
+<![endif]-->
+<link rel="stylesheet" type="text/css" href="static/h-ui/css/H-ui.min.css" />
+<link rel="stylesheet" type="text/css" href="static/h-ui.admin/css/H-ui.admin.css" />
+<link rel="stylesheet" type="text/css" href="lib/Hui-iconfont/1.0.8/iconfont.css" />
+<link rel="stylesheet" type="text/css" href="static/h-ui.admin/skin/default/skin.css" id="skin" />
+<link rel="stylesheet" type="text/css" href="static/h-ui.admin/css/style.css" />
+<!--[if IE 6]>
+<script type="text/javascript" src="lib/DD_belatedPNG_0.0.8a-min.js" ></script>
+<script>DD_belatedPNG.fix('*');</script>
+<![endif]-->
+<title>教师班表</title>
+<link href="lib/lightbox2/2.8.1/css/lightbox.css" rel="stylesheet" type="text/css" >
+</head>
+<body>
+<nav class="breadcrumb"><i class="Hui-iconfont">&#xe67f;</i> 首页 <span class="c-gray en">&gt;</span> 班级管理 <span class="c-gray en">&gt;</span>教师班表<a class="btn btn-success radius r" style="line-height:1.6em;margin-top:3px" href="javascript:location.replace(location.href);" title="刷新" ><i class="Hui-iconfont">&#xe68f;</i></a></nav>
+<div class="page-container">
+	<input type="text" class="input-text" style="width:250px" placeholder="输入班级、教师名" id="message" name="">
+	<button type="button" class="btn btn-success radius" id="SearchSchedule" name=""><i class="Hui-iconfont">&#xe665;</i> 搜一下</button>
+	<div class="cl pd-5 bg-1 bk-gray mt-20"> <span class="l"><a class="btn btn-primary radius" onclick="classSchedule_add('添加教师班表','classSchedule_add.do','','')" href="javascript:;"><i class="Hui-iconfont">&#xe600;</i> 添加教师班表</a></span> <span class="r">共有数据：<strong id="tiao"></strong> 条</span> </div>
+	<div class="mt-20">
+		<table class="table table-border table-bordered table-bg table-hover table-sort">
+			<thead>
+				<tr class="text-c">
+					<th width="40"><input name="" type="checkbox" value=""></th>
+					<th width="80">ID</th>
+					<th width="100">教师名</th>
+					<th width="100">代课班级</th>
+					<th width="100">操作</th>
+				</tr>
+			</thead>
+			<tbody id="content">
+				
+			</tbody>
+		</table>
+		<div id="pageCount">
+		</div>
+	</div>
+</div>
+
+<!--_footer 作为公共模版分离出去-->
+<script type="text/javascript" src="lib/jquery/1.9.1/jquery.min.js"></script> 
+<script type="text/javascript" src="lib/layer/2.4/layer.js"></script>
+<script type="text/javascript" src="static/h-ui/js/H-ui.min.js"></script> 
+<script type="text/javascript" src="static/h-ui.admin/js/H-ui.admin.js"></script> <!--/_footer 作为公共模版分离出去-->
+
+<!--请在下方写此页面业务相关的脚本-->
+<script type="text/javascript" src="lib/lightbox2/2.8.1/js/lightbox.min.js"></script> 
+<script type="text/javascript" src="lib/My97DatePicker/4.8/WdatePicker.js"></script> 
+<script type="text/javascript" src="lib/laypage/1.2/laypage.js"></script>
+<script type="text/javascript" src="js/page.js"></script>
+<script type="text/javascript" src="js/base.js"></script>
+<script type="text/javascript" src="js/cookie_util.js"></script>
+<script type="text/javascript">
+
+/*页面加载时加载分页方法*/
+$(function(){
+	var message=$("#message").val();
+	getDataClassScheduleInfo(1,message);
+	
+	//搜班级
+	$("#SearchSchedule").click(SearchSchedule);
+});
+
+function SearchSchedule(){
+	var message=$("#message").val();
+	if(message==null || message==""){
+		layer.msg('请输入内容',{icon: 5,time:2000});
+	}
+	getDataClassScheduleInfo(1,message);
+}
+/*教师班表-添加*/
+function classSchedule_add(title,url,w,h){
+	layer_show(title,url,w,h);
+}
+
+/*教师班表-编辑*/
+function class_schedule_update(title,url,id,w,h){
+	layer_show(title,url,id,w,h);
+	SetCookie("schedule_id", id);
+}
+
+/*教师个人信息*/
+function class_teacher_show(title,url,id,w,h){
+	layer_show(title,url,id,w,h);
+	SetCookie("IDCard",id);
+}
+/*教师班表-删除*/
+function class_schedule_del(obj,id){
+	layer.confirm('确认要删除吗？',function(index){
+		$.ajax({
+			type: 'POST',
+			url: 'DeleteClassSchedule.do',
+			data:{"id":id},
+			dataType: 'json',
+			success: function(d){
+				if(d.status==0){
+					$(obj).parents("tr").remove();
+					layer.msg('已删除!',{icon:1,time:1000});
+					addlog(39);
+				}
+			},
+			error:function(d) {
+				console.log(d.msg);
+			},
+		});		
+	});
+}
+</script>
+</body>
+</html>

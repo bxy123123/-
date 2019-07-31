@@ -1,0 +1,312 @@
+<!--_meta 作为公共模版分离出去-->
+<!DOCTYPE HTML>
+<html>
+<head>
+<meta charset="utf-8">
+<meta name="renderer" content="webkit|ie-comp|ie-stand">
+<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+<meta name="viewport" content="width=device-width,initial-scale=1,minimum-scale=1.0,maximum-scale=1.0,user-scalable=no" />
+<meta http-equiv="Cache-Control" content="no-siteapp" />
+<link rel="Bookmark" href="/favicon.ico" >
+<link rel="Shortcut Icon" href="/favicon.ico" />
+<link rel="stylesheet" type="text/css" href="static/h-ui/css/H-ui.min.css" />
+<link rel="stylesheet" type="text/css" href="static/h-ui.admin/css/H-ui.admin.css" />
+<link rel="stylesheet" type="text/css" href="lib/Hui-iconfont/1.0.8/iconfont.css" />
+<link rel="stylesheet" type="text/css" href="static/h-ui.admin/skin/default/skin.css" id="skin" />
+<link rel="stylesheet" type="text/css" href="static/h-ui.admin/css/style.css" />
+<!--[if IE 6]>
+<script type="text/javascript" src="lib/DD_belatedPNG_0.0.8a-min.js" ></script>
+<script>DD_belatedPNG.fix('*');</script>
+<![endif]-->
+<!--/meta 作为公共模版分离出去-->
+
+<title>添加账号</title>
+<meta name="keywords" content="">
+<meta name="description" content="">
+
+</head>
+<body>
+<article class="page-container">
+	<form action="" method="post" class="form form-horizontal" id="form-admin-role-add">
+		<div class="row cl">
+			<label class="form-label col-xs-4 col-sm-3"><span class="c-red">*</span>手机号：</label>
+			<div class="formControls col-xs-8 col-sm-9">
+				<input type="text" class="input-text" value="" placeholder="" id="userphone">
+				<span id="phone" style="color:red;font-size:12px"></span>
+			</div>
+		</div>
+		<div class="row cl">
+			<label class="form-label col-xs-4 col-sm-3"><span class="c-red">*</span>用户真实姓名：</label>
+			<div class="formControls col-xs-8 col-sm-9">
+				<input type="text" class="input-text" placeholder="" id="username" value="">
+				<span id="name" style="color:red;font-size:12px"></span>
+			</div>
+		</div>
+		<div class="row cl">
+			<label class="form-label col-xs-4 col-sm-3"><span class="c-red">*</span>年龄：</label>
+			<div class="formControls col-xs-8 col-sm-9">
+				<input type="text" class="input-text" value="" placeholder="" id="userage">
+				<span id="age" style="color:red;font-size:12px"></span>
+			</div>
+		</div>
+		<div class="row cl">
+			<label class="form-label col-xs-4 col-sm-3"><span class="c-red">*</span>性别：</label>
+			<div class="formControls col-xs-8 col-sm-9 skin-minimal">
+				<div class="radio-box">
+					<input name="sex" type="radio" id="sex-1" checked value="男">
+					<label for="sex-1">男</label>
+				</div>
+				<div class="radio-box">
+					<input type="radio" id="sex-2" name="sex" value="女">
+					<label for="sex-2">女</label>
+				</div>
+			</div>
+		</div>
+		<div class="row cl">
+			<label class="form-label col-xs-4 col-sm-3"><span class="c-red">*</span>职位：</label>
+			<div class="formControls col-xs-8 col-sm-9 skin-minimal">
+					<select id="user_role">
+						<option>人员管理员</option>
+						<option>场地管理员</option>
+						<option>组织管理员</option>
+						<option>专业管理员</option>
+						<option>班级管理员</option>
+					</select>
+			</div>
+		</div>
+		
+		<div class="row cl">
+			<label class="form-label col-xs-4 col-sm-3"><span class="c-red">*</span>身份证号码：</label>
+			<div class="formControls col-xs-8 col-sm-9">
+				<input type="text" class="input-text" value="" placeholder="" id="user_IDCard">
+				<span id="IDCard" style="color:red;font-size:12px"></span>
+			</div>
+		</div>
+		
+		<!-- <div class="row cl">
+			<label class="form-label col-xs-4 col-sm-3">网站角色：</label>
+			<div class="formControls col-xs-8 col-sm-9">
+				<dl class="permission-list">
+					<dt>
+						<label>
+							<input type="checkbox" value="" name="user-Character-0" id="user-Character-0">
+							资讯管理</label>
+					</dt>
+					<dd>
+						<dl class="cl permission-list2">
+							<dt>
+								<label class="">
+									<input type="checkbox" value="" name="user-Character-0-0" id="user-Character-0-0">
+									栏目管理</label>
+							</dt>
+							<dd>
+								<label class="">
+									<input type="checkbox" value="" name="user-Character-0-0-0" id="user-Character-0-0-0">
+									添加</label>
+								<label class="">
+									<input type="checkbox" value="" name="user-Character-0-0-0" id="user-Character-0-0-1">
+									修改</label>
+								<label class="">
+									<input type="checkbox" value="" name="user-Character-0-0-0" id="user-Character-0-0-2">
+									删除</label>
+								<label class="">
+									<input type="checkbox" value="" name="user-Character-0-0-0" id="user-Character-0-0-3">
+									查看</label>
+								<label class="">
+									<input type="checkbox" value="" name="user-Character-0-0-0" id="user-Character-0-0-4">
+									审核</label>
+								<label class="c-orange"><input type="checkbox" value="" name="user-Character-0-0-0" id="user-Character-0-0-5"> 只能操作自己发布的</label>
+							</dd>
+						</dl>
+						<dl class="cl permission-list2">
+							<dt>
+								<label class="">
+									<input type="checkbox" value="" name="user-Character-0-1" id="user-Character-0-1">
+									文章管理</label>
+							</dt>
+							<dd>
+								<label class="">
+									<input type="checkbox" value="" name="user-Character-0-1-0" id="user-Character-0-1-0">
+									添加</label>
+								<label class="">
+									<input type="checkbox" value="" name="user-Character-0-1-0" id="user-Character-0-1-1">
+									修改</label>
+								<label class="">
+									<input type="checkbox" value="" name="user-Character-0-1-0" id="user-Character-0-1-2">
+									删除</label>
+								<label class="">
+									<input type="checkbox" value="" name="user-Character-0-1-0" id="user-Character-0-1-3">
+									查看</label>
+								<label class="">
+									<input type="checkbox" value="" name="user-Character-0-1-0" id="user-Character-0-1-4">
+									审核</label>
+								<label class="c-orange"><input type="checkbox" value="" name="user-Character-0-2-0" id="user-Character-0-2-5"> 只能操作自己发布的</label>
+							</dd>
+						</dl>
+					</dd>
+				</dl>
+				<dl class="permission-list">
+					<dt>
+						<label>
+							<input type="checkbox" value="" name="user-Character-0" id="user-Character-1">
+							用户中心</label>
+					</dt>
+					<dd>
+						<dl class="cl permission-list2">
+							<dt>
+								<label class="">
+									<input type="checkbox" value="" name="user-Character-1-0" id="user-Character-1-0">
+									用户管理</label>
+							</dt>
+							<dd>
+								<label class="">
+									<input type="checkbox" value="" name="user-Character-1-0-0" id="user-Character-1-0-0">
+									添加</label>
+								<label class="">
+									<input type="checkbox" value="" name="user-Character-1-0-0" id="user-Character-1-0-1">
+									修改</label>
+								<label class="">
+									<input type="checkbox" value="" name="user-Character-1-0-0" id="user-Character-1-0-2">
+									删除</label>
+								<label class="">
+									<input type="checkbox" value="" name="user-Character-1-0-0" id="user-Character-1-0-3">
+									查看</label>
+								<label class="">
+									<input type="checkbox" value="" name="user-Character-1-0-0" id="user-Character-1-0-4">
+									审核</label>
+							</dd>
+						</dl>
+					</dd>
+				</dl>
+			</div>
+		</div> -->
+		<div class="row cl">
+			<div style="color:red;font-size:15px; margin-left:600px" id="error">
+				
+			</div>
+			<div class="col-xs-8 col-sm-9 col-xs-offset-4 col-sm-offset-3">
+				<button type="button" class="btn btn-success radius" id="admin-role-add" name="admin-role-save"><i class="icon-ok"></i> 确定</button>
+			</div>
+		</div>
+	</form>
+</article>
+
+<!--_footer 作为公共模版分离出去-->
+<script type="text/javascript" src="lib/jquery/1.9.1/jquery.min.js"></script> 
+<script type="text/javascript" src="lib/layer/2.4/layer.js"></script>
+<script type="text/javascript" src="static/h-ui/js/H-ui.min.js"></script> 
+<script type="text/javascript" src="static/h-ui.admin/js/H-ui.admin.js"></script> <!--/_footer 作为公共模版分离出去-->
+
+<!--请在下方写此页面业务相关的脚本-->
+<script type="text/javascript" src="lib/jquery.validation/1.14.0/jquery.validate.js"></script>
+<script type="text/javascript" src="lib/jquery.validation/1.14.0/validate-methods.js"></script>
+<script type="text/javascript" src="lib/jquery.validation/1.14.0/messages_zh.js"></script>
+<script type="text/javascript" src="js/cookie_util.js"></script>
+<script type="text/javascript" src="js/base.js"></script>
+<script type="text/javascript" src="js/regular_expression.js"></script>
+<script type="text/javascript">
+$(function(){
+	$(".permission-list dt input:checkbox").click(function(){
+		$(this).closest("dl").find("dd input:checkbox").prop("checked",$(this).prop("checked"));
+	});
+	$(".permission-list2 dd input:checkbox").click(function(){
+		var l =$(this).parent().parent().find("input:checked").length;
+		var l2=$(this).parents(".permission-list").find(".permission-list2 dd").find("input:checked").length;
+		if($(this).prop("checked")){
+			$(this).closest("dl").find("dt input:checkbox").prop("checked",true);
+			$(this).parents(".permission-list").find("dt").first().find("input:checkbox").prop("checked",true);
+		}
+		else{
+			if(l==0){
+				$(this).closest("dl").find("dt input:checkbox").prop("checked",false);
+			}
+			if(l2==0){
+				$(this).parents(".permission-list").find("dt").first().find("input:checkbox").prop("checked",false);
+			}
+		}
+	});
+	$(function(){
+		//添加角色
+		$("#admin-role-add").click(AddUser);
+	});
+	
+	//清空提示信息
+	$("#userphone").click(function(){
+		$("#phone").html("");
+	});
+	$("#username").click(function(){
+		$("#name").html("");
+	});
+	$("#userage").click(function(){
+		$("#age").html("");
+	});
+	$("#user_IDCard").click(function(){
+		$("#IDCard").html("");
+	});
+	
+	//添加角色
+	function AddUser(){
+		//获取输入的信息
+		var userphone=$("#userphone").val();
+		var username=$("#username").val();
+		var userage=$("#userage").val();
+		var usersex=$('input[name="sex"]:checked').val();
+		var user_role=$("#user_role").val();
+		var user_IDCard=$("#user_IDCard").val();
+		var ok = true;
+		if(!regphone.test(userphone)){
+			$("#phone").html("* 请正确填写手机号码!");
+			ok=false;
+		}
+		if(!regname.test(username)){
+			$("#name").html("* 请如实填写姓名!");
+			ok=false;
+		} 
+		if(!regage.test(userage)){
+			$("#age").html("* 请正确填写年龄!");
+			ok=false;
+		} 
+		if(!regIDCard.test(user_IDCard)){
+			$("#IDCard").html("* 请正确填写身份证号码!");
+			ok=false;
+		}
+		if(ok){
+		$.ajax({
+			type: "POST",
+			url:path+"/AddUser.do",
+			data:{"userphone":userphone,"username":username,
+					"userage":userage,"usersex":usersex,"user_role":user_role,"user_IDCard":user_IDCard},
+			dataType: "json",
+			success:function(d){
+				if(d.status==0){
+					layer.msg('添加成功!',{icon:1,time:1000});
+					addlog(2);
+				}
+			},
+			error:function(){
+				alert("添加失败!");
+			}
+		});
+		}
+	  }
+	
+	$("#form-admin-role-add").validate({
+		rules:{
+			roleName:{
+				required:true,
+			},
+		},
+		onkeyup:false,
+		focusCleanup:true,
+		success:"valid",
+		submitHandler:function(form){
+			$(form).ajaxSubmit();
+			var index = parent.layer.getFrameIndex(window.name);
+			parent.layer.close(index);
+		}
+	});
+});
+</script>
+<!--/请在上方写此页面业务相关的脚本-->
+</body>
+</html>

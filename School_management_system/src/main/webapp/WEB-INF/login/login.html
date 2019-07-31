@@ -1,0 +1,157 @@
+﻿<!DOCTYPE HTML>
+<html>
+<head>
+<meta charset="utf-8">
+<meta name="renderer" content="webkit|ie-comp|ie-stand">
+<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+<meta name="viewport"
+	content="width=device-width,initial-scale=1,minimum-scale=1.0,maximum-scale=1.0,user-scalable=no" />
+<meta http-equiv="Cache-Control" content="no-siteapp" />
+<link href="static/h-ui/css/H-ui.min.css" rel="stylesheet"
+	type="text/css" />
+<link href="static/h-ui.admin/css/H-ui.login.css" rel="stylesheet"
+	type="text/css" />
+<link href="static/h-ui.admin/css/style.css" rel="stylesheet"
+	type="text/css" />
+<link href="lib/Hui-iconfont/1.0.8/iconfont.css" rel="stylesheet"
+	type="text/css" />
+	<script type="text/javascript" src="js/jquery-1.11.1.js"></script>
+	<script type="text/javascript" src="js/base.js"></script>
+	<script type="text/javascript" src="lib/layer/2.4/layer.js"></script>
+	<script type="text/javascript">
+	$(function(){
+		//检查登录
+		$("#login").click(CheckLogin);
+		$("#number").click(Clean1);
+		$("#password").click(Clean2);
+		$("#code").click(Clean3);
+		//清空输入框的内容
+		$("#cancel").click(Cancel);
+	});
+	
+	//检查登录
+	var SUCCESS = 1;
+	function CheckLogin(){
+		//获取参数
+		var number=$("#number").val().trim();//账号
+		var password=$("#password").val().trim();//密码
+		var code = $("#code").val().trim();//验证码
+		//进行简单的判断
+		var ok=true;
+		if(number==""){
+			ok=false;
+			$("#number_error").html("账号不能为空!");
+		}
+		if(password==""){
+			ok=false;
+			$("#pwd_error").html("密码不能为空!");
+		}
+		 if(code==""){
+			ok=false;
+			$("#code_error").html("<font color='red'>× 验证码不能为空!</font>");
+		}
+		
+		if(ok){
+			$.ajax({
+				url:path+"/CheckLogin.do",
+				type:"post",
+				data:{"number":number,"password":password,"code":code},
+				dataType:"json",
+				success:function(d){
+					if(d.status==SUCCESS){ 
+						//用户校验成功，跳转到主页面
+						window.location.href=path+"/index.jsp";
+					}else{
+						if(d.msg=="账号错误！"){
+							$("#number_error").html(d.msg);
+							}
+						if(d.msg=="密码错误!"){
+							$("#pwd_error").html(d.msg);
+							}
+						if(d.msg=="验证码错误!"){
+							$("#code_error").html("验证码有误!");
+							}
+						if(d.msg=="该账号已被停用!"){
+							layer.msg('该账号已被停用',{icon: 5,time:2000});
+							}
+					}
+				},
+				error:function(){
+					alert("登录失败");
+				}
+			});
+		}
+	}
+	
+	function Clean1(){
+		$("#number_error").html("");
+	}
+	function Clean2(){
+		$("#pwd_error").html("");
+	}
+	function Clean3(){
+		$("#code_error").html("");
+	}
+	//清空输入框的内容
+	function Cancel(){
+		$("#number").val("");
+		$("#password").val("");
+		$("#code").val("");
+	}
+	</script>
+<title>学院综合管理系统2.0</title>
+<meta name="keywords">
+<meta name="description">
+</head>
+<body>
+	<input type="hidden" id="TenantId" name="TenantId" value="" />
+	<div class="header">学院综合管理系统2.0</div>
+	<div class="loginWraper">
+		<div id="loginform" class="loginBox">
+			<form class="form form-horizontal">
+				<div class="row cl">
+					<label class="form-label col-xs-3"><i class="Hui-iconfont">&#xe60d;</i></label>
+					<div class="formControls col-xs-8">
+						<input id="number" name="" type="text" placeholder="账户"
+							class="input-text size-L">
+						<a style="color:red;font-size:15px;margin-top:10px" id="number_error"></a>
+					</div>
+				</div>
+				<div class="row cl">
+					<label class="form-label col-xs-3"><i class="Hui-iconfont">&#xe60e;</i></label>
+					<div class="formControls col-xs-8">
+						<input id="password" name="" type="password" placeholder="密码"
+							class="input-text size-L">
+						<a style="color:red;font-size:15px;margin-top:10px" id="pwd_error"></a>
+					</div>
+				</div>
+				<div class="row cl">
+					<div class="formControls col-xs-8 col-xs-offset-3">
+						<input id="code" class="input-text size-L" type="text" placeholder="验证码"
+							onblur="if(this.value==''){this.value='验证码:'}"
+							onclick="if(this.value=='验证码:'){this.value='';}" 
+							style="width: 150px;">
+							<img src="createImg.do" onclick="this.src='createImg.do?'+Math.random()" alt="验证码" title="看不清,换一张" /> 
+						<a style="color:red;font-size:15px;margin-top:10px" id="code_error"></a>
+					</div>
+				</div>
+				<div class="row cl">
+					<div class="formControls col-xs-8 col-xs-offset-3">
+						<label for="online"> <input type="checkbox" name="online"
+							id="online" value=""> 使我保持登录状态
+						</label>
+					</div>
+				</div>
+				<div class="row cl">
+					<div class="formControls col-xs-8 col-xs-offset-3">
+						<input name="" type="button" class="btn btn-success radius size-L"
+							value="&nbsp;登&nbsp;&nbsp;&nbsp;&nbsp;录&nbsp;" id="login"> <input
+							name="" type="reset" class="btn btn-default radius size-L"
+							value="&nbsp;取&nbsp;&nbsp;&nbsp;&nbsp;消&nbsp;" id="cancel">
+					</div>
+				</div>
+			</form>
+		</div>
+	</div>
+	<div class="footer">@2019  隐私政策  投诉反馈   版权所有</div>
+</html>

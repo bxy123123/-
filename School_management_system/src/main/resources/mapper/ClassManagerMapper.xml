@@ -1,0 +1,101 @@
+<?xml version="1.0" encoding="UTF-8" ?>  
+<!DOCTYPE mapper PUBLIC "-//ibatis.apache.org//DTD Mapper 3.0//EN"      
+ "http://ibatis.apache.org/dtd/ibatis-3-mapper.dtd">
+<mapper namespace="com.cc.dao.ClassManagerDao">
+	
+	<delete id="DeleteClassInformation" parameterType="Integer">
+		delete from classInformation where class_id=#{class_id}
+	</delete>
+	
+	<insert id="AddClassInformation" parameterType="com.cc.entity.ClassInformation">
+		insert into classInformation values(null,#{class_name},#{class_Instructor},#{class_number},#{instructor_IDCard})
+	</insert>
+	
+	<select id="ShowClassInformation" parameterType="Integer" resultType="com.cc.entity.ClassInformation">
+		select * from classInformation where class_id=#{class_id}
+	</select>
+	
+	<update id="UpdateClassInformation" parameterType="com.cc.entity.ClassInformation">
+		update classInformation set class_name=#{class_name} , class_Instructor=#{class_Instructor} , 
+		class_number=#{class_number},instructor_IDCard=#{instructor_IDCard} where class_id=#{class_id}
+	</update>
+	
+	
+	<select id="class_Instructor_show" parameterType="String" resultType="com.cc.entity.Teacher">
+		select * from teacher where teacher_IDCard=#{teacher_IDCard}
+	</select>
+	
+	<select id="findInstructor" resultType="com.cc.entity.Teacher">
+		select * from teacher where teacher_role='辅导员'
+	</select>
+	
+	<select id="findIDCard" resultType="String">
+		select teacher_IDCard from teacher where teacher_id=#{teacher_id}
+	</select>
+	
+	<select id="ShowClassCurriculum"  resultType="com.cc.entity.Class_curriculum">
+		select * from class_curriculum 
+		<where>
+			<if test="message!=null and message!=''">
+				 class_curriculum_classname=#{message}
+			</if>
+			<if test="message==null or message==''">
+				 class_curriculum_classname=''
+			</if>
+		</where>
+	</select>
+	
+	<select id="findClassName" resultType="com.cc.entity.ClassInformation">
+		select * from classinformation
+	</select>
+	
+	<insert id="Addclass_curriculum" parameterType="com.cc.entity.Class_curriculum">
+		insert into class_curriculum values(null,#{class_curriculum_one},#{class_curriculum_two},#{class_curriculum_three},
+											#{class_curriculum_four},#{class_curriculum_five},#{class_curriculum_six},
+											#{class_curriculum_classname},#{class_curriculum_time})
+	</insert>
+	
+	<select id="Showclass_curriculumById" parameterType="Integer" resultType="com.cc.entity.Class_curriculum">
+		select * from class_curriculum where class_curriculum_id=#{class_curriculum_id}
+	</select>
+	
+	<update id="Updateclass_curriculum" parameterType="com.cc.entity.Class_curriculum">
+		update class_curriculum set class_curriculum_one=#{class_curriculum_one},class_curriculum_two=#{class_curriculum_two},
+									class_curriculum_three=#{class_curriculum_three},class_curriculum_four=#{class_curriculum_four},
+									class_curriculum_five=#{class_curriculum_five},class_curriculum_six=#{class_curriculum_six}
+								where
+									class_curriculum_id=#{class_curriculum_id}
+	</update>
+	
+	<select id="Select_curriculum"  resultType="com.cc.entity.Class_curriculum">
+		select * from class_curriculum where class_curriculum_classname=#{classname} and class_curriculum_time=#{week}
+	</select>
+	
+	<!-- 查找所有教师 -->
+	<select id="findAllTeacher" resultType="com.cc.entity.Teacher">
+		select * from teacher where teacher_role='教师'
+	</select>
+	
+	<!--添加教师表 -->
+	<insert id="AddClassSchedule" parameterType="com.cc.entity.Class_Schedule">
+		insert into class_schedule values(null,#{class_schedule_teachername},#{class_schedule_classname},#{teacher_idcard})
+	</insert>
+	
+	<!-- 根据id显示教师班表在编辑页面 -->
+	<select id="ShowClassScheduleById" parameterType="Integer" resultType="com.cc.entity.Class_Schedule">
+		select * from class_schedule where class_schedule_id=#{class_schedule_id}
+	</select>
+	
+	<!--修改教师班表  -->
+	<update id="UpdateClassSchedule" parameterType="com.cc.entity.Class_Schedule">
+		update class_schedule set class_schedule_teachername=#{class_schedule_teachername},class_schedule_classname=#{class_schedule_classname},
+									teacher_idcard=#{teacher_idcard}
+							where
+								class_schedule_id=#{class_schedule_id}
+	</update>
+	
+	<!--根据id删除教师班表  -->
+	<delete id="DeleteClassSchedule" parameterType="Integer">
+		delete from class_schedule where class_schedule_id=#{class_schedule_id}
+	</delete>
+</mapper>

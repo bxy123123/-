@@ -1,0 +1,417 @@
+<!--_meta 作为公共模版分离出去-->
+<!DOCTYPE HTML>
+<html>
+<head>
+<meta charset="utf-8">
+<meta name="renderer" content="webkit|ie-comp|ie-stand">
+<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+<meta name="viewport" content="width=device-width,initial-scale=1,minimum-scale=1.0,maximum-scale=1.0,user-scalable=no" />
+<meta http-equiv="Cache-Control" content="no-siteapp" />
+<link rel="Bookmark" href="/favicon.ico" >
+<link rel="Shortcut Icon" href="/favicon.ico" />
+<!--[if lt IE 9]>
+<script type="text/javascript" src="lib/html5shiv.js"></script>
+<script type="text/javascript" src="lib/respond.min.js"></script>
+<![endif]-->
+<link rel="stylesheet" type="text/css" href="static/h-ui/css/H-ui.min.css" />
+<link rel="stylesheet" type="text/css" href="static/h-ui.admin/css/H-ui.admin.css" />
+<link rel="stylesheet" type="text/css" href="lib/Hui-iconfont/1.0.8/iconfont.css" />
+<link rel="stylesheet" type="text/css" href="static/h-ui.admin/skin/default/skin.css" id="skin" />
+<!--[if IE 6]>
+<script type="text/javascript" src="lib/DD_belatedPNG_0.0.8a-min.js" ></script>
+<script>DD_belatedPNG.fix('*');</script>
+<![endif]-->
+<!--/meta 作为公共模版分离出去-->
+
+<title>修改学生</title>
+<meta name="keywords" content="H-ui.admin v3.1,H-ui网站后台模版,后台模版下载,后台管理系统模版,HTML后台模版下载">
+<meta name="description" content="H-ui.admin v3.1，是一款由国人开发的轻量级扁平化网站后台模板，完全免费开源的网站后台管理系统模版，适合中小型CMS后台系统。">
+</head>
+<body>
+<article class="page-container">
+	<form action="" method="post" class="form form-horizontal" id="form-member-add">
+		<div class="row cl">
+			<label class="form-label col-xs-4 col-sm-3"><span class="c-red">*</span>学生名：</label>
+			<div class="formControls col-xs-8 col-sm-9">
+				<input type="text" class="input-text" value="" placeholder="" id="student_name">
+				<span id="name" style="color:red;font-size:12px"></span>
+			</div>
+		</div>
+		<div class="row cl">
+			<label class="form-label col-xs-4 col-sm-3"><span class="c-red">*</span>民族：</label>
+			<div class="formControls col-xs-8 col-sm-9">
+				<input type="text" class="input-text" value="" placeholder="" id="student_nation">
+				<span id="nation" style="color:red;font-size:12px"></span>
+			</div>
+		</div>
+		<div class="row cl">
+			<label class="form-label col-xs-4 col-sm-3"><span class="c-red">*</span>性别：</label>
+			<div>
+				<div class="radio-box">
+					<input name="sex" type="radio" id="sex-1"  value="男">
+					<label for="sex-1">男</label>
+				</div>
+				<div class="radio-box">
+					<input type="radio" id="sex-2" name="sex" value="女">
+					<label for="sex-2">女</label>
+				</div>
+			</div>
+		</div>
+		<div class="row cl">
+			<label class="form-label col-xs-4 col-sm-3"><span class="c-red">*</span>年龄：</label>
+			<div class="formControls col-xs-8 col-sm-9">
+				<input type="text" class="input-text" value="" placeholder="" id="student_age">
+				<span id="age" style="color:red;font-size:12px"></span>
+			</div>
+		</div>
+		<div class="row cl">
+			<label class="form-label col-xs-4 col-sm-3"><span class="c-red">*</span>手机：</label>
+			<div class="formControls col-xs-8 col-sm-9">
+				<input type="text" class="input-text" value="" placeholder="" id="student_phone">
+				<span id="phone" style="color:red;font-size:12px"></span>
+			</div>
+		</div>
+		<div class="row cl">
+			<label class="form-label col-xs-4 col-sm-3"><span class="c-red">*</span>身份证号：</label>
+			<div class="formControls col-xs-8 col-sm-9">
+				<input type="text" class="input-text" placeholder="" name="idCardNo" id="student_IDCard">
+				<span id="IDCard" style="color:red;font-size:12px"></span>
+			</div>
+		</div>
+		<div class="row cl">
+			<label class="form-label col-xs-4 col-sm-3"><span class="c-red">*</span>学籍号：</label>
+			<div class="formControls col-xs-8 col-sm-9">
+				<input type="text" class="input-text" placeholder="" name="" id="student_code">
+				<span id="code" style="color:red;font-size:12px"></span>
+			</div>
+		</div>
+		<div class="row cl">
+			<label class="form-label col-xs-4 col-sm-3">上传头像：</label>
+			<div class="formControls col-xs-8 col-sm-9">
+				<img class="avatar size-XL l"  id="upImg" src="static/h-ui/images/ucnter/avatar-default.jpg" style="width:70px;height:70px">
+				<a href="javascript:void();" class="btn btn-primary radius upload-btn" id="uploagimage" style="margin-left:30px;margin-top:20px;"><i class="Hui-iconfont">&#xe642;</i> 选择头像</a>
+				<input type="file"  id="image" onchange="show(this)" style="display:none">
+			</div>
+		</div>
+		<div class="row cl">
+			<label class="form-label col-xs-4 col-sm-3"><span class="c-red">*</span>出生日期：</label>
+			<div class="formControls col-xs-8 col-sm-9">
+				<input type="date" class="input-text" placeholder="" name="" id="student_birthday">
+				<span id="birthday" style="color:red;font-size:12px"></span>
+			</div>
+		</div>
+		<div class="row cl">
+			<label class="form-label col-xs-4 col-sm-3"><span class="c-red">*</span>入学日期：</label>
+			<div class="formControls col-xs-8 col-sm-9">
+				<input type="date" class="input-text" placeholder="" name="" id="student_Date_of_admission">
+				<span id="Date_of_admission" style="color:red;font-size:12px"></span>
+			</div>
+		</div>
+		<div class="row cl">
+			<label class="form-label col-xs-4 col-sm-3"><span class="c-red">*</span>专业：</label>
+			<div class="formControls col-xs-8 col-sm-9">
+				<span class="select-box">
+					<select class="select" id="student_major">
+					</select>
+				</span>
+				<span id="major" style="color:red;font-size:12px"></span>
+			</div>
+		</div>
+		<div class="row cl">
+			<label class="form-label col-xs-4 col-sm-3"><span class="c-red">*</span>班级：</label>
+			<div class="formControls col-xs-8 col-sm-9">
+				<span class="select-box">
+					<select class="select" id="classname">
+					</select>
+				</span>
+				<span id="class_name" style="color:red;font-size:12px"></span>
+			</div>
+		</div>
+		
+		<div class="row cl">
+			<div class="col-xs-8 col-sm-9 col-xs-offset-4 col-sm-offset-3">
+				<input class="btn btn-primary radius" type="button" id="update" value="&nbsp;&nbsp;提交&nbsp;&nbsp;">
+			</div>
+		</div>
+	</form>
+</article>
+
+<!--_footer 作为公共模版分离出去-->
+<script type="text/javascript" src="lib/jquery/1.9.1/jquery.min.js"></script> 
+<script type="text/javascript" src="lib/layer/2.4/layer.js"></script>
+<script type="text/javascript" src="static/h-ui/js/H-ui.min.js"></script> 
+<script type="text/javascript" src="static/h-ui.admin/js/H-ui.admin.js"></script> <!--/_footer 作为公共模版分离出去-->
+
+<!--请在下方写此页面业务相关的脚本--> 
+<script type="text/javascript" src="lib/My97DatePicker/4.8/WdatePicker.js"></script>
+<script type="text/javascript" src="lib/jquery.validation/1.14.0/jquery.validate.js"></script> 
+<script type="text/javascript" src="lib/jquery.validation/1.14.0/validate-methods.js"></script> 
+<script type="text/javascript" src="lib/jquery.validation/1.14.0/messages_zh.js"></script>
+<script type="text/javascript" src="js/base.js"></script>
+<script type="text/javascript" src="js/ftbbase.js"></script>
+<script type="text/javascript" src="js/cookie_util.js"></script>
+<script type="text/javascript" src="js/page.js"></script>
+<script type="text/javascript" src="js/regular_expression.js"></script>
+<script type="text/javascript">
+$(function(){
+	$("#uploagimage").on("click",function(){
+		$("#image").click();
+	});
+	//显示学生个人信息
+	Show_student();
+	//修改学生信息
+	$("#update").click(update_student);
+	
+	
+	$('.skin-minimal input').iCheck({
+		checkboxClass: 'icheckbox-blue',
+		radioClass: 'iradio-blue',
+		increaseArea: '20%'
+	});
+	
+	$("#form-member-add").validate({
+		rules:{
+			username:{
+				required:true,
+				minlength:2,
+				maxlength:16
+			},
+			sex:{
+				required:true,
+			},
+			mobile:{
+				required:true,
+				isMobile:true,
+			},
+			email:{
+				required:true,
+				email:true,
+			},
+			uploadfile:{
+				required:true,
+			},
+			
+		},
+		onkeyup:false,
+		focusCleanup:true,
+		success:"valid",
+		submitHandler:function(form){
+			//$(form).ajaxSubmit();
+			var index = parent.layer.getFrameIndex(window.name);
+			//parent.$('.btn-refresh').click();
+			parent.layer.close(index);
+		}
+	});
+	
+	//查询所有班级名称
+	$.ajax({
+		"url" : path + "/findClassName.do",
+		"type" : "post",
+		"dataType" : "json",
+		"success" : function(d) {
+			var ClassName = d.data;
+			// 获取到数据后放入option中
+			for (var i = 0; i < ClassName.length; i++) {
+				$("#classname").append(
+						"<option value=''>"
+								+ ClassName[i].class_name + "</option>");
+			}
+		}
+	});
+	
+	//查询所有专业
+	$.ajax({
+		"url" : path + "/findProfession.do",
+		"type" : "post",
+		"dataType" : "json",
+		"success" : function(d) {
+			var profession = d.data;
+			// 获取到数据后放入option中
+			for (var i = 0; i < profession.length; i++) {
+				$("#student_major").append(
+						"<option value=''>"
+								+ profession[i].professional_name + "</option>");
+			}
+		}
+	});
+	
+});
+function show(f){
+	var rd=new FileReader();//创建文件读取对象
+	var files=f.files[0];//获取file组件中的文件
+	rd.readAsDataURL(files);//文件读取转换为base64类型
+	rd.onloadend=function(e){
+		//加载完毕之后获取结果赋值给img
+		document.getElementById("upImg").src=this.result;
+	}
+}
+//清空提示信息
+$("#student_name").click(function(){
+	$("#name").html("");
+});
+$("#student_nation").click(function(){
+	$("#nation").html("");
+});
+$("#student_age").click(function(){
+	$("#age").html("");
+});
+$("#student_phone").click(function(){
+	$("#phone").html("");
+});
+$("#student_IDCard").click(function(){
+	$("#IDCard").html("");
+});
+$("#student_code").click(function(){
+	$("#code").html("");
+});
+$("#student_major").click(function(){
+	$("#major").html("");
+});
+$("#classname").click(function(){
+	$("#class_name").html("");
+});
+$("#student_birthday").click(function(){
+	$("#birthday").html("");
+});
+$("#student_Date_of_admission").click(function(){
+	$("#Date_of_admission").html("");
+});
+
+//显示个人信息
+var studentid=0;
+var img=0;
+function Show_student(){
+	studentid=getCookie("studentid");
+	if(studentid!=null){
+		$.ajax({
+			type: "POST",
+			url:path+"/Student_Show.do",
+			data:{"student_id":studentid},
+			dataType: "json",
+			success: function(data){
+				var student=data.data;
+				if(data.status==0){
+					var head_image=student.student_headimage;
+					img=path1+head_image;
+					if(head_image==null){
+						$("#upImg").attr('src', 'static/h-ui/images/ucnter/avatar-default.jpg');
+					}else{
+					$("#upImg").attr('src', img);
+					}
+					$("#student_name").val(student.student_name);
+					$("#student_nation").val(student.student_nation);
+					if(student.student_sex=='男'){
+						$("#sex-1").attr("checked","checked");
+						$("#sex-2").removeAttr("checked");
+					}
+					if(student.student_sex=='女'){
+						$("#sex-2").attr("checked","checked");
+						$("#sex-1").removeAttr("checked");
+					}
+					$("#student_age").val(student.student_age);
+					$("#student_phone").val(student.student_phone);
+					$("#student_IDCard").val(student.student_IDCard);
+					$("#student_code").val(student.student_code);
+					var birthday=getMyDate1(student.student_birthday);
+					$("#student_birthday").val(birthday);
+					var Date_of_admission=getMyDate1(student.student_Date_of_admission);
+					$("#student_Date_of_admission").val(Date_of_admission);
+					$("#student_major").html("<option>"+student.student_major+"</option>");
+					$("#classname").html("<option>"+student.student_class+"</option>");
+					
+				}else{
+					alert("显示个人信息错误!");
+				}
+			},
+			error:function(data) {
+				console.log(data.msg);
+			},
+		});	
+	}
+}
+//修改个人信息
+function update_student(){
+	//获取信息
+	var student_name=$("#student_name").val();
+	var student_nation=$("#student_nation").val();
+	var student_sex=$('input[name="sex"]:checked').val(); 
+	var student_phone=$("#student_phone").val();
+	var student_age=$("#student_age").val();
+	var student_IDCard=$("#student_IDCard").val();
+	var student_code=$("#student_code").val();
+	var base=$("#upImg")[0].src;
+	var fileExt=base.replace(/.+\./,"");
+	var file = null;
+	if(!(fileExt && /^(jpg|jpeg|gif|png)$/i.test(fileExt))){
+		file = base;
+	}
+	var student_birthday=$("#student_birthday").val();
+	var student_Date_of_admission=$("#student_Date_of_admission").val();
+	var student_major=$("#student_major").find("option:selected").text();
+	var classname=$("#classname").find("option:selected").text();
+	var ok=true;
+	if(!regname.test(student_name)){
+		$("#name").html("* 请如实填写姓名");
+		ok=false;
+	}
+	if(!regnation.test(student_nation)){
+		$("#nation").html("* 请如实填写名族");
+		ok=false;
+	}
+	if(!regphone.test(student_phone)){
+		$("#phone").html("* 请如实填写手机号");
+		ok=false;
+	}
+	if(!regage.test(student_age)){
+		$("#age").html("* 请如实填写年龄");
+		ok=false;
+	}
+	if(!regIDCard.test(student_IDCard)){
+		$("#IDCard").html("* 请如实填写身份证号");
+		ok=false;
+	}
+	if(!regcode.test(student_code)){
+		$("#code").html("* 请如实填写学籍号");
+		ok=false;
+	}
+	if(student_major==""){
+		$("#major").html("* 这是必选字段");
+		ok=false;
+	}
+	if(classname==""){
+		$("#class_name").html("* 这是必选字段");
+		ok=false;
+	}
+	if(student_Date_of_admission==""){
+		$("#Date_of_admission").html("* 这是必填字段");
+		ok=false;
+	}
+	if(student_birthday==""){
+		$("#birthday").html("* 这是必填字段");
+		ok=false;
+	}
+	if(ok){
+	$.ajax({
+		type: "POST",
+		url:path+"/UpdateStudent.do",
+		data:{"studentid":studentid,"student_name":student_name,"student_nation":student_nation,
+				"student_sex":student_sex,"student_phone":student_phone,"student_age":student_age,"student_IDCard":student_IDCard,
+				"student_code":student_code,"file":file,"student_birthday":student_birthday,"student_Date_of_admission":student_Date_of_admission,
+				"student_major":student_major,"student_class":classname},
+		dataType: "json",
+		success:function(d){
+			if(d.status==0){
+				layer.msg('修改成功!',{icon:1,time:1000});
+				addlog(9);
+			}
+		},
+		error:function(){
+			alert("修改失败!");
+		}
+	});
+  }
+}
+</script> 
+<!--/请在上方写此页面业务相关的脚本-->
+</body>
+</html>

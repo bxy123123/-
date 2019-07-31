@@ -1,0 +1,172 @@
+<html>
+<head>
+<meta charset="utf-8">
+<meta name="renderer" content="webkit|ie-comp|ie-stand">
+<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+<meta name="viewport" content="width=device-width,initial-scale=1,minimum-scale=1.0,maximum-scale=1.0,user-scalable=no" />
+<meta http-equiv="Cache-Control" content="no-siteapp" />
+<!--[if lt IE 9]>
+<script type="text/javascript" src="lib/html5shiv.js"></script>
+<script type="text/javascript" src="lib/respond.min.js"></script>
+<![endif]-->
+<link rel="stylesheet" type="text/css" href="static/h-ui/css/H-ui.min.css" />
+<link rel="stylesheet" type="text/css" href="static/h-ui.admin/css/H-ui.admin.css" />
+<link rel="stylesheet" type="text/css" href="lib/Hui-iconfont/1.0.8/iconfont.css" />
+<link rel="stylesheet" type="text/css" href="static/h-ui.admin/skin/default/skin.css" id="skin" />
+<link rel="stylesheet" type="text/css" href="static/h-ui.admin/css/style.css" />
+
+<!--[if IE 6]>
+<script type="text/javascript" src="lib/DD_belatedPNG_0.0.8a-min.js" ></script>
+<script>DD_belatedPNG.fix('*');</script>
+<![endif]-->
+<title>场地安排管理</title>
+</head>
+<body>
+<nav class="breadcrumb"><i class="Hui-iconfont">&#xe67f;</i> 首页 <span class="c-gray en">&gt;</span> 场地管理 <span class="c-gray en">&gt;</span> 场地安排管理 <a class="btn btn-success radius r" style="line-height:1.6em;margin-top:3px" href="javascript:location.replace(location.href);" title="刷新" ><i class="Hui-iconfont">&#xe68f;</i></a></nav>
+<div class="page-container">
+	<div class="cl pd-5 bg-1 bk-gray"> <span class="l"><a href="javascript:;" onclick="datadel()" class="btn btn-danger radius"><i class="Hui-iconfont">&#xe6e2;</i> 批量删除</a> <!-- <a class="btn btn-primary radius" href="javascript:;" onclick="admin_info_add('添加场地安排','place_arrange_add.do','800')"><i class="Hui-iconfont">&#xe600;</i> 添加场地安排</a> --> </span> <span class="r">共有数据：<span id="tiao"></span> 条</span> </div>
+	<table class="table table-border table-bordered table-hover table-bg">
+		<thead>
+			<tr>
+				<th scope="col" colspan="10">场地安排管理</th>
+			</tr>
+			<tr class="text-c">
+				<th width="25"><input type="checkbox" value="" name=""></th>
+				<th width="100">使用单位</th>
+				<th width="100">地点</th>
+				<th width="50">使用日期</th>
+				<th width="50">结束日期</th>
+				<th width="100">人数</th>
+				<th width="200">内容</th>
+				<th width="100">审核状态</th>
+				<th width="50">操作</th>
+			</tr>
+		</thead>
+		<tbody id="content">
+			
+		</tbody>
+	</table>
+		<div id="pageCount">
+		</div>
+</div>
+<!--_footer 作为公共模版分离出去-->
+<script type="text/javascript" src="lib/jquery/1.9.1/jquery.min.js"></script> 
+<script type="text/javascript" src="lib/layer/2.4/layer.js"></script>
+<script type="text/javascript" src="static/h-ui/js/H-ui.min.js"></script> 
+<script type="text/javascript" src="static/h-ui.admin/js/H-ui.admin.js"></script> <!--/_footer 作为公共模版分离出去-->
+<script type="text/javascript" src="js/cookie_util.js"></script>
+<!--请在下方写此页面业务相关的脚本-->
+<script type="text/javascript" src="lib/datatables/1.10.0/jquery.dataTables.min.js"></script>
+<script type="text/javascript" src="js/page.js"></script>
+<script type="text/javascript" src="js/base.js"></script>
+<script type="text/javascript">
+/*页面加载时加载分页方法*/
+$(function(){
+	getDataPlaceArrange(1);
+})
+
+/*场地安排-不通过*/
+function member_stop(obj,user_id){
+	layer.confirm('确认要不通过审核吗？',function(index){
+		SetCookie("ureasonid",user_id);
+		layer_show("未通过原因","place_arrange_reason.do",user_id,400,300);
+		$.ajax({
+			type: 'POST',
+			url: path+'/updateArrangeStart.do',
+			data:{"id":user_id,"start":2},
+			dataType: '',
+			success: function(data){
+				/* $(obj).parents("tr").find(".f-14").prepend("<a style=\"text-decoration:none\" onClick=\"member_start(this,'"+user_id+"')\" href=\"javascript:;\" title=\"启用\"><i class=\"Hui-iconfont\">&#xe6e1;</i></a>");
+				$(obj).parents("tr").find(".td-status").html('<span class="label label-defaunt radius">已停用</span>');
+				$(obj).remove(); */
+				if(data.status == 0){
+				layer.msg('操作已完成!',{icon: 5,time:1000});
+				addlog(26);
+				}
+			},
+			error:function(data) {
+				alert("更改失败");
+			},
+		});		
+	});
+}
+
+/*场地安排-通过*/
+function member_start(obj,user_id){
+	layer.confirm('确认要通过审核吗？',function(index){
+		$.ajax({
+			type: 'POST',
+			url: path+'/updateArrangeStart.do',
+			data:{"id":user_id,"start":1},
+			dataType: 'json',
+			success: function(data){
+				/* $(obj).parents("tr").find(".f-14").prepend("<a style=\"text-decoration:none\" onClick=\"member_stop(this,'"+user_id+"')\" href=\"javascript:;\" title=\"停用\"><i class=\"Hui-iconfont\">&#xe631;</i></a>");
+				$(obj).parents("tr").find(".td-status").html("<span class='label label-success radius'>已启用</span>");
+				$(obj).remove(); */
+				if(data.status == 0){
+					layer.msg('操作已完成!',{icon: 6,time:1000});
+					addlog(25);
+				}
+				
+			},
+			error:function(data) {
+				alert("更改失败");
+			},
+		});
+	});
+}
+
+/*管理员-批量场地安排删除*/
+function datadel(){
+	layer.confirm('删除须谨慎，确认要删除吗？',function(index){
+		
+			chs = document.getElementsByName("check_item");
+			for (var i = 0; i < chs.length; i++) {
+				if(chs[i].checked){
+					console.log(chs[i].value);
+					$.ajax({
+						type: "POST",
+						url:path+"/DeleteArrangePlace.do",
+						data:{"arrange_id":chs[i].value},
+						dataType: "json",
+						success: function(data){
+							if(data.status==0){
+							location.replace(location.href);
+							layer.msg('已删除!',{icon:1,time:1000});
+							}
+						},
+						error:function(data) {
+							alert("删除失败!");
+						},
+					});		
+				}
+			} 
+		
+	});
+	
+}
+
+/*场地-删除*/
+function place_role_del(obj,id){
+	layer.confirm('删除须谨慎，确认要删除吗？',function(index){
+		$.ajax({
+			type: "POST",
+			url:path+"/DeleteArrangePlace.do",
+			data:{"arrange_id":id},
+			dataType: "json",
+			success: function(data){
+				if(data.status==0){
+				$(obj).parents("tr").remove();
+				layer.msg('已删除!',{icon:1,time:1000});
+				addlog(4);
+				}
+			},
+			error:function(data) {
+				alert("删除失败!");
+			},
+		});		
+	});
+}
+</script>
+</body>
+</html>

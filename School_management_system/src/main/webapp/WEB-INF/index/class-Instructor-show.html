@@ -1,0 +1,128 @@
+<!DOCTYPE HTML>
+<html>
+<head>
+<meta charset="utf-8">
+<meta name="renderer" content="webkit|ie-comp|ie-stand">
+<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+<meta name="viewport" content="width=device-width,initial-scale=1,minimum-scale=1.0,maximum-scale=1.0,user-scalable=no" />
+<meta http-equiv="Cache-Control" content="no-siteapp" />
+<!--[if lt IE 9]>
+<script type="text/javascript" src="lib/html5shiv.js"></script>
+<script type="text/javascript" src="lib/respond.min.js"></script>
+<![endif]-->
+<link rel="stylesheet" type="text/css" href="static/h-ui/css/H-ui.min.css" />
+<link rel="stylesheet" type="text/css" href="static/h-ui.admin/css/H-ui.admin.css" />
+<link rel="stylesheet" type="text/css" href="lib/Hui-iconfont/1.0.8/iconfont.css" />
+<link rel="stylesheet" type="text/css" href="static/h-ui.admin/skin/default/skin.css" id="skin" />
+<link rel="stylesheet" type="text/css" href="static/h-ui.admin/css/style.css" />
+<!--[if IE 6]>
+<script type="text/javascript" src="lib/DD_belatedPNG_0.0.8a-min.js" ></script>
+<script>DD_belatedPNG.fix('*');</script>
+<![endif]-->
+<title>辅导员查看</title>
+</head>
+<body>
+<div class="cl pd-20" style=" background-color:#5bacb6">
+	<img class="avatar size-XL l" id="head_img" src="static/h-ui/images/ucnter/avatar-default.jpg">
+	<dl style="margin-left:80px; color:#fff">
+		<dt>
+			<span class="f-18" id="teacher_name"></span>
+		</dt>
+	</dl>
+</div>
+<div class="pd-20">
+	<table class="table">
+		<tbody>
+			<tr>
+				<th class="text-r" width="80">性别：</th>
+				<td id="teacher_sex"></td>
+			</tr>
+			<tr>
+				<th class="text-r" width="80">年龄：</th>
+				<td id="teacher_age"></td>
+			</tr>
+			<tr>
+				<th class="text-r">手机：</th>
+				<td id="teacher_phone"></td>
+			</tr>
+			<tr>
+				<th class="text-r">身份证号：</th>
+				<td id="teacher_IDCard"></td>
+			</tr>
+			<tr>
+				<th class="text-r">地址：</th>
+				<td id="teacher_address"></td>
+			</tr>
+			<tr>
+				<th class="text-r">角色身份：</th>
+				<td id="teacher_role"></td>
+			</tr>
+			<tr>
+				<th class="text-r">授课专业：</th>
+				<td id="teacher_profession"></td>
+			</tr>
+			<tr>
+				<th class="text-r">上岗日期：</th>
+				<td id="teacher_dutytime"></td>
+			</tr>
+		</tbody>
+	</table>
+</div>
+<!--_footer 作为公共模版分离出去-->
+<script type="text/javascript" src="lib/jquery/1.9.1/jquery.min.js"></script>
+<script type="text/javascript" src="lib/layer/2.4/layer.js"></script>
+<script type="text/javascript" src="static/h-ui/js/H-ui.min.js"></script>
+<script type="text/javascript" src="static/h-ui.admin/js/H-ui.admin.js"></script> 
+<script type="text/javascript" src="js/base.js"></script>
+<script type="text/javascript" src="js/ftbbase.js"></script>
+<script type="text/javascript" src="js/cookie_util.js"></script>
+<script type="text/javascript" src="js/page.js"></script>
+<!--/_footer 作为公共模版分离出去-->
+<script type="text/javascript">
+$(function(){
+	//显示辅导员个人信息
+	class_Instructor_show();
+});
+function class_Instructor_show(){
+	var IDCard=getCookie("IDCard");
+	if(IDCard!=null){
+		$.ajax({
+			type: "POST",
+			url:path+"/Instructor_show.do",
+			data:{"iDCard":IDCard},
+			dataType: "json",
+			success: function(data){
+				var teacher=data.data;
+				if(data.status==0){
+					var head_image=teacher.teacher_headimage;
+					var img=path1+head_image;
+					if(head_image==null){
+						$("#head_img").attr('src', 'static/h-ui/images/ucnter/avatar-default.jpg');
+					}else{
+					$("#head_img").attr('src', img);
+					}
+					$("#teacher_name").html(teacher.teacher_name);
+					$("#teacher_sex").html(teacher.teacher_sex);
+					$("#teacher_age").html(teacher.teacher_age);
+					$("#teacher_phone").html(teacher.teacher_phone);
+					$("#teacher_IDCard").html(teacher.teacher_IDCard);
+					$("#teacher_address").html(teacher.teacher_address);
+					$("#teacher_role").html(teacher.teacher_role);
+					$("#teacher_profession").html(teacher.teacher_profession);
+					var dutytime=getMyDate1(teacher.teacher_dutytime);
+					$("#teacher_dutytime").html(dutytime);
+				}else{
+					alert("显示个人信息错误!");
+				}
+			},
+			error:function(data) {
+				console.log(data.msg);
+			},
+		});	
+	}
+	delCookie("IDCard");
+}
+</script>
+<!--请在下方写此页面业务相关的脚本-->
+</body>
+</html>

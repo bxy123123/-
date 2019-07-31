@@ -1,0 +1,314 @@
+<?xml version="1.0" encoding="UTF-8" ?>  
+<!DOCTYPE mapper PUBLIC "-//ibatis.apache.org//DTD Mapper 3.0//EN"      
+ "http://ibatis.apache.org/dtd/ibatis-3-mapper.dtd">
+<mapper namespace="com.cc.dao.PageDao">
+
+	<select id="pageSize" resultType="java.lang.Integer">
+		select count(*) from user
+	</select>
+
+	<select id="findpage" resultType="com.cc.entity.User">
+		select * from user limit
+		#{start},#{end}
+	</select>
+
+	<select id="pageSizeStudentInfo" resultType="java.lang.Integer">
+		select count(*) from
+		student
+	</select>
+
+	<select id="findpageStudentInfo" resultType="com.cc.entity.Student">
+		select * from
+		student limit #{start},#{end}
+	</select>
+
+	<select id="pageSizeTeacherInfo" resultType="java.lang.Integer">
+		select count(*) from
+		teacher
+	</select>
+
+	<select id="findpageTeacherInfo" resultType="com.cc.entity.Teacher">
+		select * from
+		teacher limit #{start},#{end}
+	</select>
+
+	<select id="pageSizeAdminLog" resultType="java.lang.Integer">
+		select count(*) from
+		log
+	</select>
+
+	<select id="findpageAdminLog" resultType="com.cc.entity.Log">
+		select * from log order
+		by log_id desc limit #{start},#{end}
+	</select>
+
+	<!-- 场地安排分页 -->
+	<select resultType="java.lang.Integer" id="pagePlaceArrange">
+		select count(*) from
+		arrange
+	</select>
+
+	<select resultType="com.cc.entity.Arrange" id="findpagePlaceArrange">
+		select * from
+		arrange ORDER BY arrange_id desc limit #{start},#{end}
+	</select>
+
+	<!-- 社团活动 -->
+	<select id="pageClubActivities" resultType="java.lang.Integer">
+		select count(*) from
+		club_activities
+	</select>
+
+	<select id="findpagepageClubActivities" resultType="com.cc.entity.Club_activities">
+		select * from
+		club_activities limit #{start},#{end}
+	</select>
+
+	<!-- 校园活动 -->
+	<select id="pageSchoolActivities" resultType="java.lang.Integer">
+		select count(*)
+		from school_activities
+	</select>
+
+	<select id="findpagepageSchoolActivities" resultType="com.cc.entity.School_activities">
+		select *
+		from school_activities limit #{start},#{end}
+	</select>
+
+	<!--班级信息 -->
+	<select resultType="java.lang.Integer" id="pageClassInformation">
+		select count(*) from classinformation
+	</select>
+
+	<select resultType="com.cc.entity.ClassInformation" id="findpageClassInformation">
+		select * from classinformation limit #{start},#{end}
+	</select>
+
+	<!-- 根据班级或辅导员名称搜班级信息 -->
+	<select resultType="java.lang.Integer" id="pageClassInformationByMessage">
+		select count(*) from classinformation
+		<where>
+			<if test="message!=null and message!=''">
+				and class_name=#{message}
+				or class_Instructor=#{message}
+			</if>
+		</where>
+	</select>
+	<select id="findpageClassInformationByMessage" resultType="com.cc.entity.ClassInformation">
+		select * from classinformation
+		<where>
+			<if test="message!=null and message!=''">
+				and class_name=#{message}
+				or class_Instructor=#{message}
+			</if>
+		</where>
+		limit #{start},#{end}
+	</select>
+
+	<!--专业信息 -->
+	<select resultType="java.lang.Integer" id="pageProfession"> 
+		select count(*) from professional 
+	</select>
+	<select resultType="com.cc.entity.Professional" id="findpagepageProfession">
+		 select * from professional limit #{start},#{end} 
+	</select>
+	<!--根据专业名称搜专业 -->
+	<select resultType="java.lang.Integer" id="pageProfessionByMessage">
+		select count(*) from professional
+		<where>
+			<if test="message!=null and message!=''"> 
+				professional_name=#{message} 
+			</if>
+		</where>
+	</select>
+	<select resultType="com.cc.entity.Professional" id="findpageProfessionByMessage">
+		select * from professional
+		<where>
+			<if test="message!=null and message!=''"> 
+				professional_name=#{message} 
+			</if>
+		</where>
+		limit #{start},#{end}
+	</select>
+	
+	<!--根据信息查询账号  -->
+	<select resultType="java.lang.Integer" id="pageAdminRoleInfoByMessage">
+		select count(*) from user
+		<where>
+			<if test="message!=null and message!=''">
+				and user_name=#{message}
+				or	user_role like '%${message}%'
+			</if>
+		</where>
+	</select>
+	<select id="findpageAdminRoleInfoByMessage" resultType="com.cc.entity.User">
+		select * from user
+		<where>
+			<if test="message!=null and message!=''">
+				and user_name=#{message}
+				or user_role like '%${message}%'
+			</if>
+		</where>
+		limit #{start},#{end}
+	</select>
+	
+	<!--根据辅导员名字查询所带的班级  -->
+	<select id="findClassName" parameterType="String" resultType="String">
+		select class_name from classinformation where class_Instructor=#{class_Instructor}
+	</select>
+	
+	<!-- 查询该辅导员所带的班级学生信息 -->
+	<select id="pageClassStudentInfo" resultType="java.lang.Integer">
+		select count(*) from student
+			<where>
+			<if test="message!=null and message!=''">
+				 student_name=#{message}
+				 and student_class=#{class_name}
+			</if>
+			<if test="message==null or message==''">
+				 student_class=#{class_name}
+			</if>
+		</where>
+	</select>
+	<select id="findpageClassStudentInfo" resultType="com.cc.entity.Student">
+		select * from student
+			<where>
+			<if test="message!=null and message!=''">
+				 student_name=#{message}
+				 and student_class=#{class_name}
+			</if>
+			<if test="message==null or message==''">
+				 student_class=#{class_name}
+			</if>
+		</where>
+	</select>
+	
+	<!-- 显示辅导员所带的班级课程 -->
+	<select id="ShowClassCurriculumInformation" parameterType="String" resultType="com.cc.entity.Class_curriculum">
+		select * from  class_curriculum where class_curriculum_classname=#{class_curriculum_classname}
+	</select>
+	
+	<!--教师班表  -->
+	<select resultType="java.lang.Integer" id="pageClassSchedule"> 
+		select count(*) from class_schedule 
+		<where>
+			<if test="message!=null and message!=''">
+				and class_schedule_teachername=#{message}
+				or	class_schedule_classname=#{message}
+			</if>
+		</where>
+	</select>
+	<select resultType="com.cc.entity.Class_Schedule" id="findpageClassSchedule">
+		 select * from class_schedule 
+		 <where>
+			<if test="message!=null and message!=''">
+				and class_schedule_teachername=#{message}
+				or	class_schedule_classname=#{message}
+			</if>
+		</where>
+		 limit #{start},#{end} 
+	</select>
+	
+	<!--根据选择的班级查询该班所有的学生  -->
+		<select resultType="java.lang.Integer" id="pagefindStudentByClassName"> 
+			select count(*) from student
+		<where>
+			<if test="message!=null and message!=''">
+				and student_name=#{message}
+				and	student_class=#{classname}
+			</if>
+			<if test="message==null or message==''">
+				and	student_class=#{classname}
+			</if>
+		</where>
+	</select>
+	<select resultType="com.cc.entity.Student" id="findpagefindStudentByClassName">
+		 select * from student 
+		 <where>
+			<if test="message!=null and message!=''">
+				and student_name=#{message}
+				and	student_class=#{classname}
+			</if>
+			<if test="message==null or message==''">
+				and	student_class=#{classname}
+			</if>
+		</where>
+		 limit #{start},#{end} 
+	</select>
+	
+	<!--根据选择的学期查询该班所有的学生  -->
+		<select resultType="java.lang.Integer" id="pagefindStudentBySemester"> 
+			select count(*) from student_achievement
+		<where>
+			<if test="message!=null and message!=''">
+				and student_name=#{message}
+				and	student_class=#{classname}
+				and student_semester=#{semester}
+			</if>
+			<if test="message==null or message==''">
+				and	student_class=#{classname}
+				and student_semester=#{semester}
+			</if>
+		</where>
+	</select>
+	<select resultType="com.cc.entity.Student_achievement" id="findpagefindStudentBySemester">
+		 select * from student_achievement 
+		 <where>
+			<if test="message!=null and message!=''">
+				and student_name=#{message}
+				and	student_class=#{classname}
+				and student_semester=#{semester}
+			</if>
+			<if test="message==null or message==''">
+				and	student_class=#{classname}
+				and student_semester=#{semester}
+			</if>
+		</where>
+		 limit #{start},#{end} 
+	</select>
+	
+	<!--辅导员查看所带班级的学生成绩 -->
+	<select id="pageLookClassAchievement" resultType="java.lang.Integer">
+		select count(*) from student_achievement
+			<where>
+			<if test="message!=null and message!='' and semester!='请选择学期'">
+				 student_name=#{message}
+				 and student_semester=#{semester}
+				 and student_class=#{class_name}
+			</if>
+			<if test="message!='' and  semester=='请选择学期'">
+				 student_name=#{message}
+				 and student_class=#{class_name}
+			</if>
+			<if test="message=='' and  semester!='请选择学期'">
+				 student_semester=#{semester}
+				 and student_class=#{class_name}
+			</if>
+			<if test="message=='' and semester=='请选择学期'">
+				 student_class=#{class_name}
+			</if>
+		</where>
+	</select>
+	<select id="findpageLookClassAchievement" resultType="com.cc.entity.Student_achievement">
+		select * from student_achievement
+			<where>
+			<if test="message!=null and message!='' and semester!='请选择学期'">
+				 student_name=#{message}
+				 and student_semester=#{semester}
+				 and student_class=#{class_name}
+			</if>
+			<if test="message!='' and  semester=='请选择学期'">
+				 student_name=#{message}
+				 and student_class=#{class_name}
+			</if>
+			<if test="message=='' and  semester!='请选择学期'">
+				 student_semester=#{semester}
+				 and student_class=#{class_name}
+			</if>
+			<if test="message=='' and semester=='请选择学期'">
+				 student_class=#{class_name}
+			</if>
+		</where>
+		limit #{start},#{end}
+	</select>
+</mapper>

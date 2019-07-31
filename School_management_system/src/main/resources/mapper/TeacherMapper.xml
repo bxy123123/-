@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="UTF-8" ?>  
+<!DOCTYPE mapper PUBLIC "-//ibatis.apache.org//DTD Mapper 3.0//EN"      
+ "http://ibatis.apache.org/dtd/ibatis-3-mapper.dtd">
+<mapper namespace="com.cc.dao.TeacherDao">
+	
+	<!-- 查找登录的教师所带的班级 -->
+	<select id="selectClassByTeacher" parameterType="String" resultType="com.cc.entity.Class_Schedule">
+		select * from class_schedule where teacher_idcard=#{teacher_idcard}
+	</select>
+	
+	<!--判断该学生成绩是否保存过  -->
+	<select id="JudgeStudentAchievement" parameterType="String" resultType="com.cc.entity.Student_achievement">
+		select * from student_achievement where student_code=#{student_code}
+	</select>
+	
+	<!--录入学生成绩  -->
+	<insert id="SaveStudentAchievement" parameterType="com.cc.entity.Student_achievement">
+		insert into student_achievement values(null,#{student_name},#{student_code},#{student_profession},
+												#{student_class},#{student_midterm_achievement},#{student_final_achievement},
+												#{student_total_achievement},#{student_semester})
+	</insert>
+	
+	<!--修改学生成绩  -->
+	<update id="UpdateStudentAchievement" parameterType="com.cc.entity.Student_achievement">
+		update student_achievement set student_midterm_achievement=#{student_midterm_achievement},
+										student_final_achievement=#{student_final_achievement},
+										student_total_achievement=#{student_total_achievement}
+									where 
+										student_code=#{student_code}
+	</update>
+	
+	<!--教师查看所带班级的课程 -->
+	<select id="Lookclass_curriculum" parameterType="String" resultType="com.cc.entity.Class_curriculum">
+		select * from class_curriculum where class_curriculum_classname=#{class_curriculum_classname}
+	</select>
+</mapper>

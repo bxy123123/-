@@ -1,0 +1,235 @@
+<!DOCTYPE HTML>
+<html>
+<head>
+<meta charset="utf-8">
+<meta name="renderer" content="webkit|ie-comp|ie-stand">
+<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+<meta name="viewport" content="width=device-width,initial-scale=1,minimum-scale=1.0,maximum-scale=1.0,user-scalable=no" />
+<meta http-equiv="Cache-Control" content="no-siteapp" />
+<!--[if lt IE 9]>
+<script type="text/javascript" src="lib/html5shiv.js"></script>
+<script type="text/javascript" src="lib/respond.min.js"></script>
+<![endif]-->
+<link rel="stylesheet" type="text/css" href="static/h-ui/css/H-ui.min.css" />
+<link rel="stylesheet" type="text/css" href="static/h-ui.admin/css/H-ui.admin.css" />
+<link rel="stylesheet" type="text/css" href="lib/Hui-iconfont/1.0.8/iconfont.css" />
+<link rel="stylesheet" type="text/css" href="static/h-ui.admin/skin/default/skin.css" id="skin" />
+<link rel="stylesheet" type="text/css" href="static/h-ui.admin/css/style.css" />
+<!--[if IE 6]>
+<script type="text/javascript" src="lib/DD_belatedPNG_0.0.8a-min.js" ></script>
+<script>DD_belatedPNG.fix('*');</script>
+<![endif]-->
+<title>学生成绩录入</title>
+<link href="lib/lightbox2/2.8.1/css/lightbox.css" rel="stylesheet" type="text/css" >
+</head>
+<body>
+<nav class="breadcrumb"><i class="Hui-iconfont">&#xe67f;</i> 首页 <span class="c-gray en">&gt;</span> 教师功能 <span class="c-gray en">&gt;</span>学生成绩录入<a class="btn btn-success radius r" style="line-height:1.6em;margin-top:3px" href="javascript:location.replace(location.href);" title="刷新" ><i class="Hui-iconfont">&#xe68f;</i></a></nav>
+<div class="page-container">
+	<div class="text-c">
+		<select style="width:100px;height:31px;border:1px solid #E0E0E0" id="classname">
+			<option>请选择班级</option>
+		</select>
+		&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+		<select style="width:100px;height:31px;border:1px solid #E0E0E0" id="semester">
+			<option>请选择学期</option>
+			<option>第一学期</option>
+			<option>第二学期</option>
+			<option>第三学期</option>
+		</select>
+		&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+		<input type="text" class="input-text" style="width:250px" placeholder="输入学生姓名" id="message" name="">
+		<button type="button" class="btn btn-success radius" id="Searchachievement" name=""><i class="Hui-iconfont">&#xe665;</i> 搜一下</button>
+	</div>
+	<div class="cl pd-5 bg-1 bk-gray mt-20"> <!-- <span class="l"><a class="btn btn-primary radius" onclick="student_achievement_add('成绩录入','student_achievement_add.do','','')" href="javascript:;"><i class="Hui-iconfont">&#xe600;</i> 成绩录入</a></span> --> <span class="r">共有数据：<strong id="tiao"></strong> 条</span> </div>
+	<div class="mt-20">
+		<table class="table table-border table-bordered table-bg table-hover table-sort">
+			<thead>
+				<tr class="text-c">
+					<th width="40"><input name="" type="checkbox" value=""></th>
+					<th width="80">学生姓名</th>
+					<th width="80">学籍号</th>
+					<th width="80">专业</th>
+					<th width="80">期中成绩</th>
+					<th width="80">期末成绩</th>
+					<th width="80">总评成绩</th>
+					<th width="100">操作</th>
+				</tr>
+			</thead>
+			<tbody id="content">
+				
+			</tbody>
+		</table>
+		<div id="pageCount">
+		</div>
+	</div>
+</div>
+
+<!--_footer 作为公共模版分离出去-->
+<script type="text/javascript" src="lib/jquery/1.9.1/jquery.min.js"></script> 
+<script type="text/javascript" src="lib/layer/2.4/layer.js"></script>
+<script type="text/javascript" src="static/h-ui/js/H-ui.min.js"></script> 
+<script type="text/javascript" src="static/h-ui.admin/js/H-ui.admin.js"></script> <!--/_footer 作为公共模版分离出去-->
+
+<!--请在下方写此页面业务相关的脚本-->
+<script type="text/javascript" src="lib/lightbox2/2.8.1/js/lightbox.min.js"></script> 
+<script type="text/javascript" src="lib/My97DatePicker/4.8/WdatePicker.js"></script> 
+<script type="text/javascript" src="lib/laypage/1.2/laypage.js"></script>
+<script type="text/javascript" src="js/page.js"></script>
+<script type="text/javascript" src="js/base.js"></script>
+<script type="text/javascript" src="js/cookie_util.js"></script>
+<script type="text/javascript" src="js/regular_expression.js"></script>
+<script type="text/javascript">
+
+/*页面加载时加载分页方法*/
+$(function(){
+	//根据选择的班级查询该班所有的学生
+	$("#classname").click(findStudentByClassName);
+	//根据选择的学期查询该班所有的学生
+	$("#semester").click(findStudentBySemester);
+	//搜一搜
+	$("#Searchachievement").click(Searchachievement);
+	
+	//查找登录的教师所带的班级
+	$.ajax({
+		type: 'POST',
+		url: 'selectClassByTeacher.do',
+		dataType: 'json',
+		success: function(d){
+			var ClassName = d.data;
+			// 获取到数据后放入option中
+			for (var i = 0; i < ClassName.length; i++) {
+				$("#classname").append(
+						"<option value=''>"
+								+ ClassName[i].class_schedule_classname + "</option>");
+			}
+		},
+		error:function(d) {
+		},
+	});
+});
+
+//根据选择的班级查询该班所有的学生
+function findStudentByClassName(){
+	var semester=$("#semester").find("option:selected").text();
+	var classname=$("#classname").find("option:selected").text();
+	var message=$("#message").val();
+	if(semester!="请选择学期"){
+		getDatastudentachievementBySemesterInfo(1,classname,semester,message);
+	}else{
+		getDatastudentachievementInfo(1,classname,message);
+	}
+}
+//根据选择的学期查询该班所有的学生
+function findStudentBySemester(){
+	if(classname!="请选择班级"){
+		var classname=$("#classname").find("option:selected").text();
+		var semester=$("#semester").find("option:selected").text();
+		var message=$("#message").val();
+		getDatastudentachievementBySemesterInfo(1,classname,semester,message);
+	}else{
+		
+	}
+}
+
+//搜一搜
+function Searchachievement(){
+	var message=$("#message").val();
+	var classname=$("#classname").find("option:selected").text();
+	var semester=$("#semester").find("option:selected").text();
+	if(message==null || message==""){
+		layer.msg('请输入内容',{icon: 5,time:2000});
+	}
+	if(classname=="请选择班级"){
+		layer.msg('请选择班级',{icon: 5,time:2000});
+	}
+	if(classname!="请选择班级" && semester=="请选择学期"){
+		getDatastudentachievementInfo(1,classname,message);
+	}
+	if(classname!="请选择班级" && semester!="请选择学期"){
+		getDatastudentachievementBySemesterInfo(1,classname,semester,message);
+	}
+}
+
+//学生成绩录入
+function student_achievement(obj){
+	var student_name=$(obj).parents("tr").children().eq(1).text();//学生姓名
+	var student_code=$(obj).parents("tr").children().eq(2).text();//学生学籍号
+	var student_profession=$(obj).parents("tr").children().eq(3).text();//学生专业
+	var student_midterm=$(obj).parents("tr").children().eq(4).children().val();//学生期中成绩
+	var student_final=$(obj).parents("tr").children().eq(5).children().val();//学生期末成绩
+	var student_total=$(obj).parents("tr").children().eq(6).children().val();//学生总评成绩
+	var student_class=$("#classname").find("option:selected").text();//学生班级
+	var student_semester=$("#semester").find("option:selected").text();//学期
+	var ok=true;
+	if(!regnumber.test(student_midterm) || !regnumber.test(student_final)){
+		layer.msg('分数为小数或整数制!',{icon:1,time:2000});
+		ok=false;
+	}
+	if(student_semester=='请选择学期'){
+		layer.msg('请选择学期在保存!',{icon:1,time:2000});
+		ok=false;
+	}
+	//判断该学生成绩是否保存过
+	if(ok){
+	$.ajax({
+		type: 'POST',
+		url: 'JudgeStudentAchievement.do',
+		data:{"student_code":student_code},
+		dataType: 'json',
+		success: function(d){
+			var data=d.data;
+			if(data==null){
+				SaveStudentAchievement(student_name,student_code,student_profession,student_midterm,student_final,student_total,student_class,student_semester);
+			}else if(data!=null && student_midterm==data.student_midterm_achievement && student_final==data.student_final_achievement && student_total==data.student_total_achievement && student_semester==data.student_semester){
+				layer.msg('已保存过该学生成绩!',{icon:1,time:2000});
+			}else if(data!=null && student_semester==data.student_semester || student_midterm!=data.student_midterm_achievement || student_final!=data.student_final_achievement){
+				UpdateStudentAchievement(student_code,student_midterm,student_final,student_total);
+			}
+		},
+		error:function(d) {
+		},
+	});	
+  }
+}
+//修改学生成绩
+function UpdateStudentAchievement(student_code,student_midterm,student_final,student_total){
+	$.ajax({
+		type: 'POST',
+		url: 'UpdateStudentAchievement.do',
+		data:{"student_code":student_code,"student_midterm":student_midterm,
+			"student_final":student_final,"student_total":student_total},
+		dataType: 'json',
+		success: function(d){
+		},
+		error:function(d) {
+		},
+	});	
+}
+//添加学生成绩
+function SaveStudentAchievement(student_name,student_code,student_profession,student_midterm,student_final,student_total,student_class,student_semester){
+	$.ajax({
+		type: 'POST',
+		url: 'SaveStudentAchievement.do',
+		data:{"student_name":student_name,"student_code":student_code,"student_profession":student_profession,
+			  "student_midterm":student_midterm,"student_final":student_final,"student_total":student_total,
+			  "student_class":student_class,"student_semester":student_semester},
+		dataType: 'json',
+		success: function(d){
+				
+		},
+		error:function(d) {
+		},
+	});		
+}
+//计算总评成绩
+function calculate_total_achievement(obj){
+	var student_midterm=$(obj).parents("tr").children().eq(4).children().val();//学生期中成绩
+	var student_final=$(obj).parents("tr").children().eq(5).children().val();//学生期末成绩
+	if(student_midterm!='' && student_final!=''){
+		var total=Number(student_midterm)+Number(student_final);
+		$(obj).parents("tr").children().eq(6).children().val(total/2);
+	}
+}
+</script>
+</body>
+</html>

@@ -1,0 +1,90 @@
+<?xml version="1.0" encoding="UTF-8" ?>  
+<!DOCTYPE mapper PUBLIC "-//ibatis.apache.org//DTD Mapper 3.0//EN"      
+ "http://ibatis.apache.org/dtd/ibatis-3-mapper.dtd">
+<mapper namespace="com.cc.dao.ClubActivitiesDao">
+
+	<!--添加社团活动 -->
+	<insert id="AddClubActivities" parameterType="com.cc.entity.Club_activities">
+		insert into
+		club_activities values(null,#{clubactivities_name},#{sports_Poster},
+		#{clubactivities_place},#{clubactivities_number},#{clubactivities_time},
+		#{clubactivities_endtime},#{organizational_unit},#{clubactivities_status})
+	</insert>
+
+	<!--删除社团活动 -->
+	<delete id="DeleteClubActivities" parameterType="Integer">
+		delete from
+		club_activities where clubactivities_id=#{clubactivities_id}
+	</delete>
+
+	<!-- 根据id查询社团信息 -->
+	<select id="ShowClubActivities" parameterType="Integer"
+		resultType="com.cc.entity.Club_activities">
+		select * from club_activities where
+		clubactivities_id=#{clubactivities_id}
+	</select>
+
+	<!-- 修改社团活动 -->
+	<update parameterType="com.cc.entity.Club_activities" id="UpdateClubActivities">
+		update club_activities
+		<set>
+			<if test="sports_Poster==null or sports_Poster==''"> 
+				clubactivities_place=#{clubactivities_place},
+				clubactivities_number=#{clubactivities_number},
+				clubactivities_time=#{clubactivities_time},
+				clubactivities_endtime=#{clubactivities_endtime},
+				organizational_unit=#{organizational_unit}, 
+			</if>
+
+			<if test="sports_Poster!=null and sports_Poster!=''">
+				sports_Poster=#{sports_Poster},
+				clubactivities_place=#{clubactivities_place},
+				clubactivities_number=#{clubactivities_number},
+				clubactivities_time=#{clubactivities_time},
+				clubactivities_endtime=#{clubactivities_endtime},
+				organizational_unit=#{organizational_unit}, 
+			</if>
+
+		</set>
+		where clubactivities_id=#{clubactivities_id}
+	</update>
+
+	<!-- 修改预约状态1 -->
+	<update id="clubActivitiesStart1" parameterType="Integer">
+		update
+		club_activities set clubactivities_status=3 where
+		clubactivities_id=#{id}
+	</update>
+
+	<!-- 修改预约状态stop -->
+	<update id="clubActivitiesStartStop" parameterType="Integer">
+		update
+		club_activities set clubactivities_status=0 where
+		clubactivities_id=#{id}
+	</update>
+
+	<!-- 修改场地状态stop -->
+	<update id="addArrangeStop" parameterType="Integer">
+		update arrange set
+		arrange_statr=4 where arrange_id=#{id}
+	</update>
+
+	<!-- 按条件查询场地安排 -->
+	<select id="showArrange" parameterType="Integer" resultType="com.cc.entity.Arrange">
+		select * from arrange where clubAndSchoolActivities_id=#{id} and
+		clubAndSchoolstatus=1
+	</select>
+
+
+	<!--添加场地安排请求 -->
+	<insert id="addArrangeReason" parameterType="com.cc.entity.Club_activities">
+		insert into arrange
+		values(null,#{organizational_unit},#{clubactivities_place},#{clubactivities_number},#{clubactivities_name},
+		#{clubactivities_time},#{clubactivities_endtime},0,"无",#{clubactivities_id},1);
+	</insert>
+	
+	<!-- 查询所有场地 -->
+	<select id="findAllPlace" resultType="com.cc.entity.Place">
+		select * from place
+	</select>
+</mapper>

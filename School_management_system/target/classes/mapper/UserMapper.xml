@@ -1,0 +1,42 @@
+<?xml version="1.0" encoding="UTF-8" ?>  
+<!DOCTYPE mapper PUBLIC "-//ibatis.apache.org//DTD Mapper 3.0//EN"      
+ "http://ibatis.apache.org/dtd/ibatis-3-mapper.dtd">
+<mapper namespace="com.cc.dao.UserDao">
+	
+	<!--根据id删除用户账号  -->
+	<select id="DeleteUser" parameterType="Integer">
+		delete from user where user_id=#{user_id}
+	</select>
+	
+	<!--角色编辑(显示个人信息在编辑页面)  -->
+	<select id="ModifyUser" parameterType="Integer" resultType="com.cc.entity.User">
+		select * from user where user_id=#{user_id}
+	</select>
+	
+	<!--角色编辑(修改个人信息)  -->
+	<select id="UpdateUser" parameterType="com.cc.entity.User">
+		update user set user_name=#{user_name},user_age=#{user_age},user_sex=#{user_sex},user_phone=#{user_phone},
+						user_IDCard=#{user_IDCard},user_role=#{user_role},role_id=#{role_id}
+			where user_id=#{user_id}
+	</select>
+	
+	<!--添加角色  -->
+	<select id="AddUser" parameterType="com.cc.entity.User">
+		insert into user values(null,#{user_name},#{user_age},#{user_sex},#{user_phone},#{user_pwd},#{user_IDCard},#{user_role},#{user_status},#{user_createtime},#{role_id})
+	</select>
+	
+	<!-- 更改用户状态:开启 -->
+	<update id="updateStart" parameterType="int">
+		update user set user_status = 0 where user_id = #{id}
+	</update>
+	
+	<!-- 更改用户状态:暂停 -->
+	<update id="updateStop" parameterType="int">
+		update user set user_status = 1 where user_id = #{id}
+	</update>
+	
+	<!-- 修改密码 -->
+	<update id="ModifyPwd">
+		update user set user_pwd=#{pwd} where user_id = #{user_id}
+	</update>
+</mapper>

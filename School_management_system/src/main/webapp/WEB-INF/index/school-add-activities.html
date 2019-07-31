@@ -1,0 +1,260 @@
+<!--_meta 作为公共模版分离出去-->
+<!DOCTYPE HTML>
+<html>
+<head>
+<meta charset="utf-8">
+<meta name="renderer" content="webkit|ie-comp|ie-stand">
+<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+<meta name="viewport" content="width=device-width,initial-scale=1,minimum-scale=1.0,maximum-scale=1.0,user-scalable=no" />
+<meta http-equiv="Cache-Control" content="no-siteapp" />
+<link rel="Bookmark" href="/favicon.ico" >
+<link rel="Shortcut Icon" href="/favicon.ico" />
+<!--[if lt IE 9]>
+<script type="text/javascript" src="lib/html5shiv.js"></script>
+<script type="text/javascript" src="lib/respond.min.js"></script>
+<![endif]-->
+<link rel="stylesheet" type="text/css" href="static/h-ui/css/H-ui.min.css" />
+<link rel="stylesheet" type="text/css" href="static/h-ui.admin/css/H-ui.admin.css" />
+<link rel="stylesheet" type="text/css" href="lib/Hui-iconfont/1.0.8/iconfont.css" />
+<link rel="stylesheet" type="text/css" href="static/h-ui.admin/skin/default/skin.css" id="skin" />
+<link rel="stylesheet" type="text/css" href="static/h-ui.admin/css/style.css" />
+<!--[if IE 6]>
+<script type="text/javascript" src="lib/DD_belatedPNG_0.0.8a-min.js" ></script>
+<script>DD_belatedPNG.fix('*');</script>
+<![endif]-->
+<!--/meta 作为公共模版分离出去-->
+
+<title>添加校园活动</title>
+<meta name="keywords" content="">
+<meta name="description" content="">
+</head>
+<body>
+<article class="page-container">
+	<form action=""  class="form form-horizontal" id="form-member-add">
+		<div class="row cl">
+			<label class="form-label col-xs-4 col-sm-3"><span class="c-red">*</span>活动名称：</label>
+			<div class="formControls col-xs-8 col-sm-9">
+				<input type="text" class="input-text" value="" placeholder="" id="school_activities_name" name="">
+				<span id="name" style="color:red;font-size:12px"></span>
+			</div>
+		</div>
+		<div class="row cl">
+			<label class="form-label col-xs-4 col-sm-3"><span class="c-red">*</span>活动地点：</label>
+			<div class="formControls col-xs-8 col-sm-9">
+				<input type="text" class="input-text" value="" placeholder="" id="school_activities_place" name="">
+				<span id="place" style="color:red;font-size:12px"></span>
+			</div>
+		</div>
+		
+		<div class="row cl">
+			<label class="form-label col-xs-4 col-sm-3"><span class="c-red">*</span>组办方：</label>
+			<div class="formControls col-xs-8 col-sm-9">
+				<input type="text" class="input-text" value="" placeholder="" id="school_activities_organizer" name="">
+				<span id="organizer" style="color:red;font-size:12px"></span>
+			</div>
+		</div>
+		<div class="row cl">
+			<label class="form-label col-xs-4 col-sm-3"><span class="c-red">*</span>参加方：</label>
+			<div class="formControls col-xs-8 col-sm-9">
+				<input type="text" class="input-text" value="" placeholder="" id="school_activities_participants" name="">
+				<span id="participants" style="color:red;font-size:12px"></span>
+			</div>
+		</div>
+		<div class="row cl">
+			<label class="form-label col-xs-4 col-sm-3"><span class="c-red">*</span>参加人数：</label>
+			<div class="formControls col-xs-8 col-sm-9">
+				<input type="text" class="input-text" placeholder="" name="" id="school_activities_number">
+				<span id="number" style="color:red;font-size:12px"></span>
+			</div>
+		</div>
+		<div class="row cl">
+			<label class="form-label col-xs-4 col-sm-3"><span class="c-red">*</span>活动时间：</label>
+			<div class="formControls col-xs-8 col-sm-9">
+				<input type="date" class="input-text" placeholder="" name="" id="school_activities_starttime">
+				<span id="starttime" style="color:red;font-size:12px"></span>
+			</div>
+		</div>
+		
+		<div class="row cl">
+			<label class="form-label col-xs-4 col-sm-3"><span class="c-red">*</span>结束时间：</label>
+			<div class="formControls col-xs-8 col-sm-9">
+				<input type="date" class="input-text" placeholder="" name="" id="school_activities_endtime">
+				<span id="endtime" style="color:red;font-size:12px"></span>
+			</div>
+		</div>
+		<div class="row cl">
+			<div class="col-xs-8 col-sm-9 col-xs-offset-4 col-sm-offset-3">
+				<input class="btn btn-primary radius" type="button" id="add" value="&nbsp;&nbsp;提交&nbsp;&nbsp;">
+			</div>
+		</div>
+	</form>
+</article>
+
+<!--_footer 作为公共模版分离出去-->
+<script type="text/javascript" src="lib/jquery/1.9.1/jquery.min.js"></script> 
+<script type="text/javascript" src="lib/layer/2.4/layer.js"></script>
+<script type="text/javascript" src="static/h-ui/js/H-ui.min.js"></script> 
+<script type="text/javascript" src="static/h-ui.admin/js/H-ui.admin.js"></script> <!--/_footer 作为公共模版分离出去-->
+
+<!--请在下方写此页面业务相关的脚本--> 
+<script type="text/javascript" src="lib/My97DatePicker/4.8/WdatePicker.js"></script>
+<script type="text/javascript" src="lib/jquery.validation/1.14.0/jquery.validate.js"></script> 
+<script type="text/javascript" src="lib/jquery.validation/1.14.0/validate-methods.js"></script> 
+<script type="text/javascript" src="lib/jquery.validation/1.14.0/messages_zh.js"></script>
+<script type="text/javascript" src="js/page.js"></script>
+<script type="text/javascript" src="js/base.js"></script>
+<script type="text/javascript" src="js/regular_expression.js"></script>
+<script type="text/javascript">
+$(function(){
+	
+	//添加校园活动
+	$("#add").click(AddSchoolActivities);
+	
+	$('.skin-minimal input').iCheck({
+		checkboxClass: 'icheckbox-blue',
+		radioClass: 'iradio-blue',
+		increaseArea: '20%'
+	});
+	
+	$("#form-member-add").validate({
+		rules:{
+			username:{
+				required:true,
+				minlength:2,
+				maxlength:16
+			},
+			sex:{
+				required:true,
+			},
+			mobile:{
+				required:true,
+				isMobile:true,
+			},
+			email:{
+				required:true,
+				email:true,
+			},
+			uploadfile:{
+				required:true,
+			},
+			
+		},
+		onkeyup:false,
+		focusCleanup:true,
+		success:"valid",
+		submitHandler:function(form){
+			//$(form).ajaxSubmit();
+			var index = parent.layer.getFrameIndex(window.name);
+			//parent.$('.btn-refresh').click();
+			parent.layer.close(index);
+		}
+	});
+});
+
+//清空提示信息
+$("#school_activities_number").click(function(){
+	$("#number").html("");
+});
+$("#school_activities_name").click(function(){
+	$("#name").html("");
+});
+$("#school_activities_place").click(function(){
+	$("#place").html("");
+});
+$("#school_activities_organizer").click(function(){
+	$("#organizer").html("");
+});
+$("#school_activities_participants").click(function(){
+	$("#participants").html("");
+});
+$("#school_activities_starttime").click(function(){
+	$("#starttime").html("");
+});
+$("#school_activities_endtime").click(function(){
+	$("#endtime").html("");
+});
+
+
+//添加校园活动
+function AddSchoolActivities(){
+	//获取信息
+	var school_activities_name=$("#school_activities_name").val();
+	var school_activities_place=$("#school_activities_place").val();
+	var school_activities_organizer=$("#school_activities_organizer").val();
+	var school_activities_participants=$("#school_activities_participants").val();
+	var school_activities_number=$("#school_activities_number").val();
+	var school_activities_starttime=$("#school_activities_starttime").val();
+	var school_activities_endtime=$("#school_activities_endtime").val();
+	var ok=true;
+	if(school_activities_name==""){
+		$("#name").html("* 这是必填字段");
+		ok=false;
+	}
+	if(!regword.test(school_activities_name) && school_activities_name!=''){
+		$("#name").html("* 只能输入中文、英文、数字或下划线组合");
+		ok=false;
+	}
+	if(school_activities_place==""){
+		$("#place").html("* 这是必填字段");
+		ok=false;
+	}
+	if(!regword.test(school_activities_place) && school_activities_place!=''){
+		$("#place").html("* 只能输入中文、英文、数字或下划线组合");
+		ok=false;
+	}
+	if(school_activities_organizer==""){
+		$("#organizer").html("* 这是必填字段");
+		ok=false;
+	}
+	if(!regword.test(school_activities_organizer) && school_activities_organizer!=''){
+		$("#organizer").html("* 只能输入中文、英文、数字或下划线组合");
+		ok=false;
+	}
+	if(school_activities_participants==""){
+		$("#participants").html("* 这是必填字段");
+		ok=false;
+	}
+	if(!regword.test(school_activities_participants) && school_activities_participants!=''){
+		$("#participants").html("* 只能输入中文、英文、数字或下划线组合");
+		ok=false;
+	}
+	if(school_activities_starttime==""){
+		$("#starttime").html("* 这是必填字段");
+		ok=false;
+	}
+	if(school_activities_endtime==""){
+		$("#endtime").html("* 这是必填字段");
+		ok=false;
+	}
+	if(!regnumber.test(school_activities_number)){
+		$("#number").html("* 请输入数字");
+		ok=false;
+	}
+	if(ok){
+	layer.confirm('提交后活动名称不可更改,是否继续？',function(index){
+	$.ajax({
+		type: "POST",
+		url:path+"/AddSchoolActivities.do",
+		data:{"school_activities_name":school_activities_name,"school_activities_place":school_activities_place,
+				"school_activities_organizer":school_activities_organizer,"school_activities_participants":school_activities_participants,
+				"school_activities_number":school_activities_number,"school_activities_starttime":school_activities_starttime,
+				"school_activities_endtime":school_activities_endtime},
+				
+		dataType: "json",
+		success:function(d){
+			if(d.status==0){
+				layer.msg('添加成功!',{icon:1,time:1000});
+				addlog(22);
+			}
+		},
+		error:function(){
+			alert("添加失败!");
+		}
+	});
+  });
+ }
+}
+</script> 
+<!--/请在上方写此页面业务相关的脚本-->
+</body>
+</html>

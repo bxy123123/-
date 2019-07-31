@@ -1,0 +1,17 @@
+@charset "utf-8";
+/* 你自己的样式 */
+#div1{
+	float:left;
+	margin-left:20px;
+}
+#div2{
+	float:left;
+	margin-top:100px;
+}
+#uploagimage{
+	width:50px;
+	height:150px;
+	padding-top:20px;
+}
+
+
